@@ -1,0 +1,153 @@
+-- Enable UUID extension
+create extension if not exists "uuid-ossp";
+
+-- USERS (extended profile, links to Supabase auth.users)
+create table public.profiles (
+  id uuid references auth.users on delete cascade primary key,
+  full_name text,
+  entry_year int,
+  predicted_grades text,
+  created_at timestamptz default now()
+);
+
+-- Auto-create profile when user signs up
+create or replace function public.handle_new_user()
+returns trigger as $$
+begin
+  insert into public.profiles (id, full_name)
+  values (new.id, new.raw_user_meta_data->>'full_name');
+  return new;
+end;
+$$ language plpgsql security definer;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+
+-- UNIVERSITIES
+create table public.universities (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  name text not null,
+  city text,
+  course_name text,
+  website text,
+  entry_year int,
+  status text default 'Considering',
+  tuition_fee text,
+  living_cost text,
+  notes text,
+  ucat_required boolean default true,
+  ucat_typical_min int,
+  ucat_typical_max int,
+  alevel_requirement text,
+  alevel_subjects text,
+  gcse_notes text,
+  interview_type text,
+  curriculum_notes text,
+  student_life_notes text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+-- PORTFOLIO ENTRIES
+create table public.portfolio_entries (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  title text not null,
+  category text not null, -- 'Work Experience','Volunteering','Leadership','Research','Skills','E-learning'
+  duration text,
+  description text,
+  reflection text,
+  reflection_count int default 0,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+-- PERSONAL STATEMENT VERSIONS
+create table public.ps_versions (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  version_number int not null,
+  content text,
+  char_count int,
+  label text, -- e.g. 'Draft v1', 'After tutor feedback'
+  created_at timestamptz default now()
+);
+
+-- WHY MEDICINE + ACADEMIC NOTES (one row per user)
+create table public.personal_notes (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references public.profiles(id) on delete cascade unique not null,
+  why_medicine text,
+  academic_notes text,
+  epq_notes text,
+  updated_at timestamptz default now()
+);
+
+-- WIDER READING
+create table public.wider_reading (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  title text not null,
+  type text, -- 'Book','Journal','Podcast','Video'
+  reflection text,
+  reflection_status text default 'Not started', -- 'Written','Draft','Not started'
+  created_at timestamptz default now()
+);
+
+-- NETWORKING CONTACTS
+create table public.contacts (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  name text not null,
+  role text,
+  notes text,
+  created_at timestamptz default now()
+);
+
+-- CALENDAR EVENTS
+create table public.calendar_events (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  title text not null,
+  event_date date not null,
+  event_type text, -- 'UCAT','Open Day','UCAS','Interview','Other'
+  university_id uuid references public.universities(id) on delete set null,
+  notes text,
+  created_at timestamptz default now()
+);
+
+-- UCAT SCORES
+create table public.ucat_scores (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  test_date date not null,
+  vr int, dm int, qr int, ar int,
+  sj_band text,
+  total int generated always as (coalesce(vr,0)+coalesce(dm,0)+coalesce(qr,0)+coalesce(ar,0)) stored,
+  notes text,
+  created_at timestamptz default now()
+);
+
+-- ROW LEVEL SECURITY (users can only see their own data)
+alter table public.profiles enable row level security;
+alter table public.universities enable row level security;
+alter table public.portfolio_entries enable row level security;
+alter table public.ps_versions enable row level security;
+alter table public.personal_notes enable row level security;
+alter table public.wider_reading enable row level security;
+alter table public.contacts enable row level security;
+alter table public.calendar_events enable row level security;
+alter table public.ucat_scores enable row level security;
+
+-- RLS policies (one per table — users see only their rows)
+create policy "Own profile" on public.profiles for all using (auth.uid() = id);
+create policy "Own universities" on public.universities for all using (auth.uid() = user_id);
+create policy "Own portfolio" on public.portfolio_entries for all using (auth.uid() = user_id);
+create policy "Own PS" on public.ps_versions for all using (auth.uid() = user_id);
+create policy "Own notes" on public.personal_notes for all using (auth.uid() = user_id);
+create policy "Own reading" on public.wider_reading for all using (auth.uid() = user_id);
+create policy "Own contacts" on public.contacts for all using (auth.uid() = user_id);
+create policy "Own events" on public.calendar_events for all using (auth.uid() = user_id);
+create policy "Own ucat" on public.ucat_scores for all using (auth.uid() = user_id);
