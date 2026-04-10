@@ -822,24 +822,25 @@ async function loadContacts(){
 }
 
 // ── CALENDAR ──────────────────────────────────────────────────────────────────
+let _calNotes={};
 async function loadCalendar(){
   const{data}=await sb.from('calendar_events').select('*').eq('user_id',currentUser.id).order('event_date',{ascending:true});
   const el=document.getElementById('event-list');
   if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No events yet</div><div class="empty-sub">Add open days, deadlines and interviews</div></div>`;return;}
+  _calNotes={};
+  data.forEach(e=>{if(e.notes)_calNotes[e.id]=e.notes;});
   el.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px;">${data.map(e=>{
     const c=tagColor(calTags,e.event_type);
-    const sn=(e.notes||'').replace(/'/g,"\\'");
-    const st=(e.title||'').replace(/'/g,"\\'");
     return`<div class="dl-card">
       <div class="dl-icon" style="background:var(--surface2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></div>
       <div style="flex:1"><div class="dl-name">${e.title}</div><div class="dl-date">${new Date(e.event_date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>
       <span class="badge badge-${c}">${e.event_type||'Event'}</span>
-      ${e.notes?`<button class="btn btn-outline btn-sm" style="margin-left:8px;" onclick="showEventNotes('${st}','${sn}')">Notes</button>`:''}
+      ${e.notes?`<button class="btn btn-outline btn-sm" style="margin-left:8px;" onclick="showEventNotesById('${e.id}','${e.title.replace(/'/g,"&apos;").replace(/"/g,"&quot;")}')">Notes</button>`:''}
       <button class="btn btn-outline btn-sm" style="margin-left:6px;" onclick="editEvent('${e.id}')">Edit</button>
       <button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;margin-left:6px;" onclick="deleteEvent('${e.id}')">×</button>
     </div>`;}).join('')}</div>`;
 }
-function showEventNotes(title,notes){openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1rem;">${title}</div><div style="font-size:13.5px;line-height:1.8;background:var(--surface2);padding:14px;border-radius:var(--radius-sm);">${notes}</div><div style="display:flex;justify-content:flex-end;margin-top:1.5rem;"><button class="btn btn-outline" onclick="closeAllModals()">Close</button></div>`);}
+function showEventNotesById(id,title){const notes=_calNotes[id]||'';openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1rem;">${title}</div><div style="font-size:13.5px;line-height:1.8;background:var(--surface2);padding:14px;border-radius:var(--radius-sm);">${notes}</div><div style="display:flex;justify-content:flex-end;margin-top:1.5rem;"><button class="btn btn-outline" onclick="closeAllModals()">Close</button></div>`);}
 
 async function editEvent(id){
   const{data:e}=await sb.from('calendar_events').select('*').eq('id',id).single();if(!e)return;
