@@ -359,6 +359,13 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
           <button class="btn btn-primary btn-sm" onclick="showAddUni()">+ Add university</button>
         </div>
       </div>
+      <div id="uni-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="uni-search" placeholder="Search by name or city..." oninput="filterUniversities()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+        <select id="uni-filter-status" onchange="filterUniversities()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <option value="">All statuses</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="clearUniFilter()">Clear</button>
+      </div>
       <div id="uni-list"><div class="loading-state">Loading...</div></div>
     </div>
 
@@ -376,6 +383,13 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
           <button class="btn btn-outline btn-sm" onclick="managePortfolioTags()">Manage tags</button>
           <button class="btn btn-primary btn-sm" onclick="showAddEntry()">+ Add entry</button>
         </div>
+      </div>
+      <div id="port-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="port-search" placeholder="Search by title..." oninput="filterPortfolio()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+        <select id="port-filter-cat" onchange="filterPortfolio()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <option value="">All categories</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="clearPortFilter()">Clear</button>
       </div>
       <div id="portfolio-list"><div class="loading-state">Loading...</div></div>
     </div>
@@ -422,7 +436,8 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
         <div id="good-med-wrap"></div>
       </div>
       <div class="card">
-        <div style="font-size:14px;font-weight:600;margin-bottom:1rem;">Academic notes (EPQ, prizes, subject strengths)</div>
+        <div style="font-size:14px;font-weight:600;margin-bottom:4px;">Concerns about medicine</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:10px;">What worries you? What might make you reconsider? What parts feel daunting?</div>
         <div id="academic-wrap"></div>
       </div>
     </div>
@@ -436,12 +451,26 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
           <button class="btn btn-outline btn-sm" onclick="showAddReading()">+ Add</button>
         </div>
       </div>
+      <div id="read-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="read-search" placeholder="Search by title or author..." oninput="filterReading()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+        <select id="read-filter-type" onchange="filterReading()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <option value="">All types</option>
+        </select>
+        <select id="read-filter-status" onchange="filterReading()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <option value="">All statuses</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="clearReadFilter()">Clear</button>
+      </div>
       <div id="reading-list"><div class="loading-state">Loading...</div></div>
     </div>
 
     <!-- NETWORKING -->
     <div id="page-networking" class="page hidden">
       <div class="section-header"><div><div class="section-title">Networking</div><div class="section-sub">Contacts and connections</div></div><button class="btn btn-outline btn-sm" onclick="showAddContact()">+ Add contact</button></div>
+      <div id="net-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="net-search" placeholder="Search by name or role..." oninput="filterContacts()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+        <button class="btn btn-outline btn-sm" onclick="clearNetFilter()">Clear</button>
+      </div>
       <div id="contacts-list"><div class="loading-state">Loading...</div></div>
     </div>
 
@@ -453,6 +482,17 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
           <button class="btn btn-outline btn-sm" onclick="showManageTags()">Manage tags</button>
           <button class="btn btn-primary btn-sm" onclick="showAddEvent()">+ Add event</button>
         </div>
+      </div>
+      <div id="cal-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="cal-search" placeholder="Search by title..." oninput="filterCalendar()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+        <select id="cal-filter-tag" onchange="filterCalendar()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <option value="">All tags</option>
+        </select>
+        <select id="cal-filter-sort" onchange="filterCalendar()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <option value="asc">Date: earliest first</option>
+          <option value="desc">Date: latest first</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="clearCalFilter()">Clear</button>
       </div>
       <div id="event-list"><div class="loading-state">Loading...</div></div>
     </div>
@@ -649,6 +689,97 @@ function navigate(page){
   if(page==='guide'){renderChecklist();dlHTML(userProfile?.entry_year||2026,'guide-deadlines');document.getElementById('guide-entry-year').textContent=userProfile?.entry_year||2026;}
 }
 
+// ── FILTER STATE ─────────────────────────────────────────────────────────────
+let _allUnis=[],_allPort=[],_allReading=[],_allContacts=[],_allEvents=[];
+
+function populateSelect(id, options, placeholder){
+  const el=document.getElementById(id);if(!el)return;
+  const cur=el.value;
+  el.innerHTML=`<option value="">${placeholder}</option>`+options.map(o=>`<option value="${o}"${o===cur?' selected':''}>${o}</option>`).join('');
+}
+
+// UNIVERSITIES FILTER
+function filterUniversities(){
+  const q=(document.getElementById('uni-search')?.value||'').toLowerCase();
+  const status=document.getElementById('uni-filter-status')?.value||'';
+  let data=_allUnis.filter(u=>{
+    const matchQ=!q||(u.name||'').toLowerCase().includes(q)||(u.city||'').toLowerCase().includes(q);
+    const matchS=!status||u.status===status;
+    return matchQ&&matchS;
+  });
+  renderUniList(data);
+}
+function clearUniFilter(){
+  const s=document.getElementById('uni-search');if(s)s.value='';
+  const f=document.getElementById('uni-filter-status');if(f)f.value='';
+  renderUniList(_allUnis);
+}
+
+// PORTFOLIO FILTER
+function filterPortfolio(){
+  const q=(document.getElementById('port-search')?.value||'').toLowerCase();
+  const cat=document.getElementById('port-filter-cat')?.value||'';
+  let data=_allPort.filter(e=>{
+    const matchQ=!q||(e.title||'').toLowerCase().includes(q)||(e.duration||'').toLowerCase().includes(q);
+    const matchC=!cat||e.category===cat;
+    return matchQ&&matchC;
+  });
+  renderPortList(data);
+}
+function clearPortFilter(){
+  const s=document.getElementById('port-search');if(s)s.value='';
+  const f=document.getElementById('port-filter-cat');if(f)f.value='';
+  renderPortList(_allPort);
+}
+
+// READING FILTER
+function filterReading(){
+  const q=(document.getElementById('read-search')?.value||'').toLowerCase();
+  const type=document.getElementById('read-filter-type')?.value||'';
+  const status=document.getElementById('read-filter-status')?.value||'';
+  let data=_allReading.filter(r=>{
+    const matchQ=!q||(r.title||'').toLowerCase().includes(q)||(r.author||'').toLowerCase().includes(q);
+    const matchT=!type||r.type===type;
+    const matchS=!status||r.reflection_status===status;
+    return matchQ&&matchT&&matchS;
+  });
+  renderReadingList(data);
+}
+function clearReadFilter(){
+  const s=document.getElementById('read-search');if(s)s.value='';
+  const ft=document.getElementById('read-filter-type');if(ft)ft.value='';
+  const fs=document.getElementById('read-filter-status');if(fs)fs.value='';
+  renderReadingList(_allReading);
+}
+
+// CONTACTS FILTER
+function filterContacts(){
+  const q=(document.getElementById('net-search')?.value||'').toLowerCase();
+  let data=_allContacts.filter(c=>!q||(c.name||'').toLowerCase().includes(q)||(c.role||'').toLowerCase().includes(q));
+  renderContactsList(data);
+}
+function clearNetFilter(){const s=document.getElementById('net-search');if(s)s.value='';renderContactsList(_allContacts);}
+
+// CALENDAR FILTER
+function filterCalendar(){
+  const q=(document.getElementById('cal-search')?.value||'').toLowerCase();
+  const tag=document.getElementById('cal-filter-tag')?.value||'';
+  const sort=document.getElementById('cal-filter-sort')?.value||'asc';
+  let data=_allEvents.filter(e=>{
+    const matchQ=!q||(e.title||'').toLowerCase().includes(q);
+    const matchT=!tag||e.event_type===tag;
+    return matchQ&&matchT;
+  });
+  data.sort((a,b)=>sort==='asc'?new Date(a.event_date)-new Date(b.event_date):new Date(b.event_date)-new Date(a.event_date));
+  renderEventList(data);
+}
+function clearCalFilter(){
+  const s=document.getElementById('cal-search');if(s)s.value='';
+  const f=document.getElementById('cal-filter-tag');if(f)f.value='';
+  const fs=document.getElementById('cal-filter-sort');if(fs)fs.value='asc';
+  renderEventList(_allEvents);
+}
+
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
 async function loadDashboard(){
   const uid=currentUser.id;
@@ -672,9 +803,15 @@ async function loadDashboard(){
 
 // ── UNIVERSITIES ──────────────────────────────────────────────────────────────
 async function loadUniversities(){
-  const{data}=await sb.from('universities').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+  const{data}=await sb.from('universities').select('*').eq('user_id',currentUser.id).order('name',{ascending:true});
+  if(!data){return;}
+  _allUnis=data;
+  populateSelect('uni-filter-status',uniTags,'All statuses');
+  renderUniList(data);
+}
+function renderUniList(data){
   const el=document.getElementById('uni-list');
-  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No universities yet</div><div class="empty-sub">Add your first university to start researching</div></div>`;return;}
+  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No universities match</div><div class="empty-sub">Try adjusting your filters or add a new university</div></div>`;return;}
   el.innerHTML=data.map(u=>`<div class="uni-card">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:10px;">
       <div style="font-size:15px;font-weight:600;color:var(--accent);cursor:pointer;" onclick="viewUni('${u.id}')">${u.name}</div>
@@ -727,10 +864,15 @@ async function loadApplications(){
 let _portEntries={};
 async function loadPortfolio(){
   const{data}=await sb.from('portfolio_entries').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+  if(!data){return;}
+  _portEntries={};data.forEach(e=>{_portEntries[e.id]=e;});
+  _allPort=data;
+  populateSelect('port-filter-cat',portTags,'All categories');
+  renderPortList(data);
+}
+function renderPortList(data){
   const el=document.getElementById('portfolio-list');
-  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No portfolio entries yet</div><div class="empty-sub">Add your work experience, volunteering, and achievements</div></div>`;return;}
-  _portEntries={};
-  data.forEach(e=>{_portEntries[e.id]=e;});
+  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No entries match</div><div class="empty-sub">Try adjusting your filters</div></div>`;return;}
   el.innerHTML=data.map(e=>`<div class="portfolio-entry">
     <div class="entry-top">
       <div>
@@ -808,7 +950,7 @@ async function loadNotes(){
   if(!document.getElementById('why-med-wrap').innerHTML){
     document.getElementById('why-med-wrap').innerHTML=makeRTE('why-med','Write freely about your motivation for medicine...','xlarge');
     document.getElementById('good-med-wrap').innerHTML=makeRTE('good-med','What qualities, experiences, or attributes do you have that make you suited to medicine?','xlarge');
-    document.getElementById('academic-wrap').innerHTML=makeRTE('academic','EPQ title, prizes, relevant A-level topics, Biology Olympiad...','large');
+    document.getElementById('academic-wrap').innerHTML=makeRTE('academic','What worries you about medicine? What might make you reconsider? What aspects feel daunting or uncertain?','large');
   }
   const{data}=await sb.from('personal_notes').select('*').eq('user_id',currentUser.id).limit(1);
   if(data?.[0]){
@@ -818,19 +960,26 @@ async function loadNotes(){
 }
 async function saveNotes(){
   const why=JSON.stringify({why:rteGet('why-med'),good:rteGet('good-med')});
-  const academic=rteGet('academic');
+  const concerns=rteGet('academic');
   const{data:ex}=await sb.from('personal_notes').select('id').eq('user_id',currentUser.id).limit(1);
   let error;
-  if(ex?.[0]){({error}=await sb.from('personal_notes').update({why_medicine:why,academic_notes:academic,updated_at:new Date().toISOString()}).eq('user_id',currentUser.id));}
-  else{({error}=await sb.from('personal_notes').insert({user_id:currentUser.id,why_medicine:why,academic_notes:academic}));}
+  if(ex?.[0]){({error}=await sb.from('personal_notes').update({why_medicine:why,academic_notes:concerns,updated_at:new Date().toISOString()}).eq('user_id',currentUser.id));}
+  else{({error}=await sb.from('personal_notes').insert({user_id:currentUser.id,why_medicine:why,academic_notes:concerns}));}
   if(error)return toast('Error',true);toast('Notes saved');
 }
 
 // ── WIDER READING ─────────────────────────────────────────────────────────────
 async function loadReading(){
   const{data}=await sb.from('wider_reading').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+  if(!data){return;}
+  _allReading=data;
+  populateSelect('read-filter-type',readingTags,'All types');
+  populateSelect('read-filter-status',readingStatus,'All statuses');
+  renderReadingList(data);
+}
+function renderReadingList(data){
   const el=document.getElementById('reading-list');
-  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No reading logged yet</div><div class="empty-sub">Track books, journals, podcasts and videos</div></div>`;return;}
+  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No reading matches</div><div class="empty-sub">Try adjusting your filters</div></div>`;return;}
   const statusColors={'To do':'gray',Started:'amber','In progress':'blue',Finished:'green'};
   el.innerHTML=data.map(r=>`<div class="card" style="margin-bottom:0.75rem;">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:10px;">
@@ -850,9 +999,14 @@ async function loadReading(){
 
 // ── CONTACTS ──────────────────────────────────────────────────────────────────
 async function loadContacts(){
-  const{data}=await sb.from('contacts').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+  const{data}=await sb.from('contacts').select('*').eq('user_id',currentUser.id).order('name',{ascending:true});
+  if(!data){return;}
+  _allContacts=data;
+  renderContactsList(data);
+}
+function renderContactsList(data){
   const el=document.getElementById('contacts-list');
-  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No contacts yet</div><div class="empty-sub">Save doctors, consultants and other useful contacts from work experience</div></div>`;return;}
+  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No contacts match</div><div class="empty-sub">Save doctors, consultants and other useful contacts from work experience</div></div>`;return;}
   el.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Contact details</th><th>Notes</th><th></th></tr></thead><tbody>${data.map(c=>`<tr><td style="font-weight:500;">${c.name}</td><td>${c.role||'—'}</td><td style="font-size:12.5px;">${c.contact_details?linkify(c.contact_details):'—'}</td><td style="font-size:12.5px;color:var(--text2);max-width:180px;">${c.notes||'—'}</td><td><button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;" onclick="deleteContact('${c.id}')">Delete</button></td></tr>`).join('')}</tbody></table>`;
 }
 
@@ -860,10 +1014,15 @@ async function loadContacts(){
 let _calNotes={};
 async function loadCalendar(){
   const{data}=await sb.from('calendar_events').select('*').eq('user_id',currentUser.id).order('event_date',{ascending:true});
+  if(!data){return;}
+  _allEvents=data;
+  _calNotes={};data.forEach(e=>{if(e.notes)_calNotes[e.id]=e.notes;});
+  populateSelect('cal-filter-tag',calTags,'All tags');
+  renderEventList(data);
+}
+function renderEventList(data){
   const el=document.getElementById('event-list');
-  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No events yet</div><div class="empty-sub">Add open days, deadlines and interviews</div></div>`;return;}
-  _calNotes={};
-  data.forEach(e=>{if(e.notes)_calNotes[e.id]=e.notes;});
+  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No events match</div><div class="empty-sub">Try adjusting your filters</div></div>`;return;}
   el.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px;">${data.map(e=>{
     const c=tagColor(calTags,e.event_type);
     return`<div class="dl-card">
