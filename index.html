@@ -296,6 +296,8 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
         <div class="nav-label">Core Sections</div>
         <div class="nav-item" id="nav-universities" onclick="navigate('universities')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg><span>Universities</span></div>
         <div class="nav-item" id="nav-applications" onclick="navigate('applications')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg><span>Applications</span></div>
+        <div class="nav-item" id="nav-planb" onclick="navigate('planb')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg><span>Plan B</span></div>
+        <div class="nav-item" id="nav-todo" onclick="navigate('todo')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span>To-Do</span></div>
         <div class="nav-item" id="nav-portfolio" onclick="navigate('portfolio')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.53 16.38.91 14.27.91c-1.1 0-2.1.49-2.76 1.27L12 2.75l-.51-.57C10.8 1.4 9.8.91 8.73.91 6.62.91 5 2.53 5 4.64c0 .48.1.92.18 1.36H3c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg><span>Portfolio</span></div>
       </div>
       <div class="nav-section">
@@ -307,6 +309,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
       </div>
       <div class="nav-section">
         <div class="nav-label">Tools</div>
+        <div class="nav-item" id="nav-evidence" onclick="navigate('evidence')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg><span>Evidence</span></div>
         <div class="nav-item" id="nav-ucat" onclick="navigate('ucat')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg><span>UCAT Tracker</span></div>
         <div class="nav-item" id="nav-guide" onclick="navigate('guide')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg><span>Guide</span></div>
       </div>
@@ -346,7 +349,13 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
           <div style="margin-bottom:14px;"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;"><span>University research</span><span id="prog-uni-pct" style="font-weight:500;">—</span></div><div class="progress-bar"><div class="progress-fill blue" id="prog-uni" style="width:0%"></div></div></div>
           <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;"><span>Personal statement</span><span id="prog-ps-pct" style="font-weight:500;">—</span></div><div class="progress-bar"><div class="progress-fill purple" id="prog-ps" style="width:0%"></div></div></div>
         </div>
-        <div class="card"><div style="font-size:14px;font-weight:600;margin-bottom:1rem;">Key deadlines</div><div id="deadline-list"><div class="loading-state">Loading...</div></div></div>
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+            <div style="font-size:14px;font-weight:600;">Key deadlines</div>
+            <button class="btn btn-outline btn-sm" onclick="showAddDeadline()">+ Add</button>
+          </div>
+          <div id="deadline-list"><div class="loading-state">Loading...</div></div>
+        </div>
       </div>
     </div>
 
@@ -478,7 +487,12 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
     <div id="page-calendar" class="page hidden">
       <div class="section-header">
         <div><div class="section-title">Calendar</div><div class="section-sub">Open days, deadlines and interviews</div></div>
-        <div style="display:flex;gap:8px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div style="display:flex;border:1px solid var(--border2);border-radius:var(--radius-sm);overflow:hidden;">
+            <button id="cal-view-list" class="btn btn-sm" style="border:none;border-radius:0;background:var(--accent);color:white;" onclick="setCalView('list')">List</button>
+            <button id="cal-view-week" class="btn btn-sm" style="border:none;border-radius:0;background:transparent;color:var(--text2);" onclick="setCalView('week')">Week</button>
+            <button id="cal-view-month" class="btn btn-sm" style="border:none;border-radius:0;background:transparent;color:var(--text2);" onclick="setCalView('month')">Month</button>
+          </div>
           <button class="btn btn-outline btn-sm" onclick="showManageTags()">Manage tags</button>
           <button class="btn btn-primary btn-sm" onclick="showAddEvent()">+ Add event</button>
         </div>
@@ -495,6 +509,58 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
         <button class="btn btn-outline btn-sm" onclick="clearCalFilter()">Clear</button>
       </div>
       <div id="event-list"><div class="loading-state">Loading...</div></div>
+    </div>
+
+    <!-- PLAN B -->
+    <div id="page-planb" class="page hidden">
+      <div class="section-header">
+        <div><div class="section-title">Plan B</div><div class="section-sub">Alternative pathways if medicine doesn't work out</div></div>
+        <button class="btn btn-primary btn-sm" onclick="showAddPlanB()">+ Add option</button>
+      </div>
+      <div id="planb-list"><div class="loading-state">Loading...</div></div>
+    </div>
+
+    <!-- TO-DO -->
+    <div id="page-todo" class="page hidden">
+      <div class="section-header">
+        <div><div class="section-title">To-Do</div><div class="section-sub">Tasks, reminders and action items</div></div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-outline btn-sm" onclick="manageTodoTags()">Manage tags</button>
+          <button class="btn btn-primary btn-sm" onclick="showAddTodo()">+ Add task</button>
+        </div>
+      </div>
+      <div id="todo-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="todo-search" placeholder="Search tasks..." oninput="filterTodos()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+        <select id="todo-filter-tag" onchange="filterTodos()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <option value="">All tags</option>
+        </select>
+        <select id="todo-filter-status" onchange="filterTodos()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <option value="">All</option>
+          <option value="open">Open</option>
+          <option value="done">Done</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="clearTodoFilter()">Clear</button>
+      </div>
+      <div id="todo-list"><div class="loading-state">Loading...</div></div>
+    </div>
+
+    <!-- EVIDENCE -->
+    <div id="page-evidence" class="page hidden">
+      <div class="section-header">
+        <div><div class="section-title">Evidence</div><div class="section-sub">Upload documents, certificates and supporting files</div></div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-outline btn-sm" onclick="manageEvidenceTags()">Manage tags</button>
+          <button class="btn btn-primary btn-sm" onclick="showAddEvidence()">+ Upload</button>
+        </div>
+      </div>
+      <div id="evidence-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="ev-search" placeholder="Search by title..." oninput="filterEvidence()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+        <select id="ev-filter-tag" onchange="filterEvidence()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <option value="">All tags</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="clearEvFilter()">Clear</button>
+      </div>
+      <div id="evidence-list"><div class="loading-state">Loading...</div></div>
     </div>
 
     <!-- UCAT -->
@@ -554,6 +620,11 @@ let uniTags=JSON.parse(localStorage.getItem('mc-uni-tags')||'["Considering","App
 let portTags=JSON.parse(localStorage.getItem('mc-port-tags')||'["Work Experience","Volunteering","Leadership","Research","Skills","E-learning"]');
 let readingTags=JSON.parse(localStorage.getItem('mc-reading-tags')||'["Book","Journal","Podcast","Video","Article"]');
 let readingStatus=JSON.parse(localStorage.getItem('mc-reading-status')||'["To do","Started","In progress","Finished"]');
+let todoTags=JSON.parse(localStorage.getItem('mc-todo-tags')||'["UCAS","UCAT","Work Experience","Personal Statement","University Research","General"]');
+let evidenceTags=JSON.parse(localStorage.getItem('mc-ev-tags')||'["Certificate","Reference","Work Experience","Volunteering","Award","Other"]');
+let _userDeadlines=JSON.parse(localStorage.getItem('mc-deadlines')||'[]');
+let _allTodos=[],_allEvidence=[];
+let _calView='list';
 
 // ── RICH TEXT EDITOR ──────────────────────────────────────────────────────────
 function makeRTE(id, placeholder, sizeClass){
@@ -669,7 +740,7 @@ async function finishOB(){const ey=parseInt(document.getElementById('ob-year')?.
 function enterApp(){document.getElementById('auth-wrap').classList.add('hidden');document.getElementById('ob-wrap').classList.add('hidden');document.getElementById('app').classList.remove('hidden');const name=currentUser.user_metadata?.full_name||currentUser.email;const initials=name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);document.getElementById('user-avatar').textContent=initials;document.getElementById('user-name-display').textContent=name.split(' ')[0];const ey=userProfile?.entry_year;document.getElementById('user-sub-display').textContent=(ey?ey+' entry · ':'')+' sign out';document.getElementById('entry-year-badge').textContent=ey?ey+' entry':'MediArc';navigate('dashboard');}
 
 // ── NAV ───────────────────────────────────────────────────────────────────────
-const PAGE_TITLES={dashboard:'Dashboard',universities:'University Explorer',applications:'Applications',portfolio:'Portfolio Builder',ps:'Personal Statement',whymed:'Why Medicine',reading:'Wider Reading',networking:'Networking',calendar:'Calendar',ucat:'UCAT Tracker',guide:'Guide'};
+const PAGE_TITLES={dashboard:'Dashboard',universities:'University Explorer',applications:'Applications',portfolio:'Portfolio Builder',ps:'Personal Statement',whymed:'Why Medicine',reading:'Wider Reading',networking:'Networking',calendar:'Calendar',ucat:'UCAT Tracker',guide:'Guide',planb:'Plan B',todo:'To-Do',evidence:'Evidence'};
 function navigate(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -687,6 +758,9 @@ function navigate(page){
   if(page==='calendar')loadCalendar();
   if(page==='ucat')loadUCAT();
   if(page==='guide'){renderChecklist();dlHTML(userProfile?.entry_year||2026,'guide-deadlines');document.getElementById('guide-entry-year').textContent=userProfile?.entry_year||2026;}
+  if(page==='planb')loadPlanB();
+  if(page==='todo')loadTodo();
+  if(page==='evidence')loadEvidence();
 }
 
 // ── FILTER STATE ─────────────────────────────────────────────────────────────
@@ -798,7 +872,7 @@ async function loadDashboard(){
   document.getElementById('prog-port').style.width=pp+'%';document.getElementById('prog-port-pct').textContent=pp+'%';
   document.getElementById('prog-uni').style.width=up+'%';document.getElementById('prog-uni-pct').textContent=up+'%';
   document.getElementById('prog-ps').style.width=psp+'%';document.getElementById('prog-ps-pct').textContent=psp+'%';
-  dlHTML(userProfile?.entry_year||2026,'deadline-list');
+  renderDashDeadlines();
 }
 
 // ── UNIVERSITIES ──────────────────────────────────────────────────────────────
@@ -877,7 +951,7 @@ function renderPortList(data){
     <div class="entry-top">
       <div>
         <div style="font-size:14px;font-weight:600;margin-bottom:3px;">${e.title}</div>
-        <div style="font-size:12.5px;color:var(--text2);"><span class="badge badge-${tagColor(portTags,e.category)}">${e.category}</span>${e.duration?` &nbsp;·&nbsp; ${e.duration}`:''}</div>
+        <div style="font-size:12.5px;color:var(--text2);"><span class="badge badge-${tagColor(portTags,e.category)}">${e.category}</span>${e.start_date?` &nbsp;·&nbsp; ${new Date(e.start_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}${e.end_date?' – '+new Date(e.end_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):' – ongoing'}`:e.duration?` &nbsp;·&nbsp; ${e.duration}`:''}</div>
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
         <button class="btn btn-outline btn-sm" onclick="viewEntry('${e.id}')">View</button>
@@ -1018,7 +1092,7 @@ async function loadCalendar(){
   _allEvents=data;
   _calNotes={};data.forEach(e=>{if(e.notes)_calNotes[e.id]=e.notes;});
   populateSelect('cal-filter-tag',calTags,'All tags');
-  renderEventList(data);
+  renderCalView(data);
 }
 function renderEventList(data){
   const el=document.getElementById('event-list');
@@ -1065,6 +1139,406 @@ async function loadUCAT(){
   se.innerHTML=`<div class="stat-card"><div class="stat-label">Best total</div><div class="stat-value">${best.total||'—'}</div><div class="stat-sub">${new Date(best.test_date).toLocaleDateString('en-GB')}</div></div><div class="stat-card"><div class="stat-label">Tests logged</div><div class="stat-value">${data.length}</div><div class="stat-sub">practice tests</div></div><div class="stat-card"><div class="stat-label">Avg (last 5)</div><div class="stat-value">${r5.length?Math.round(r5.reduce((s,r)=>s+(r.total||0),0)/r5.length):'—'}</div><div class="stat-sub">recent average</div></div><div class="stat-card"><div class="stat-label">Best SJ band</div><div class="stat-value" style="font-size:22px;">${data.filter(d=>d.sj_band).sort((a,b)=>a.sj_band.localeCompare(b.sj_band))[0]?.sj_band||'—'}</div><div class="stat-sub">situational judgement</div></div>`;
   be.innerHTML=[['vr','Verbal Reasoning'],['dm','Decision Making'],['qr','Quantitative Reasoning'],['ar','Abstract Reasoning']].map(([k,l])=>{const a=avg(k),p=Math.round(((a-300)/600)*100);return`<div class="score-row"><div class="score-label">${l}</div><div class="score-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${p}%"></div></div></div><div class="score-val">${a||'—'}</div></div>`;}).join('');
   te.innerHTML=`<table><thead><tr><th>Date</th><th>Total</th><th>VR</th><th>DM</th><th>QR</th><th>AR</th><th>SJ</th><th></th></tr></thead><tbody>${data.map(r=>`<tr><td>${new Date(r.test_date).toLocaleDateString('en-GB')}</td><td style="font-weight:600;color:var(--accent);">${r.total||'—'}</td><td>${r.vr||'—'}</td><td>${r.dm||'—'}</td><td>${r.qr||'—'}</td><td>${r.ar||'—'}</td><td>${r.sj_band||'—'}</td><td><button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;" onclick="deleteUCAT('${r.id}')">×</button></td></tr>`).join('')}</tbody></table>`;
+}
+
+
+// ── EDITABLE DEADLINES ────────────────────────────────────────────────────────
+function renderDashDeadlines(){
+  const el=document.getElementById('deadline-list');if(!el)return;
+  if(!_userDeadlines.length){el.innerHTML=`<div style="font-size:13px;color:var(--text3);padding:8px 0;">No deadlines added yet. Click + Add to create your first.</div>`;return;}
+  const now=new Date();
+  const sorted=[..._userDeadlines].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const colors=['red','amber','blue','green','purple'];
+  el.innerHTML=sorted.map((d,i)=>{
+    const dt=new Date(d.date);const u=daysUntil(dt);
+    const c=colors[i%colors.length];
+    const cm={red:'var(--red-light)',amber:'var(--amber-light)',blue:'var(--blue-light)',green:'var(--accent-light)',purple:'var(--purple-light)'};
+    const tm={red:'var(--red)',amber:'var(--amber)',blue:'var(--blue)',green:'var(--accent)',purple:'var(--purple)'};
+    return`<div class="dl-card">
+      <div style="flex:1"><div class="dl-name">${d.name}</div><div class="dl-date">${dt.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>
+      <div class="countdown" style="background:${cm[c]};color:${tm[c]};${u.passed?'opacity:0.5':''}">${u.label}</div>
+      <button onclick="removeDeadline(${i})" style="margin-left:8px;background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;line-height:1;">×</button>
+    </div>`;
+  }).join('');
+}
+function showAddDeadline(){
+  openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Add key deadline</div>
+    <div class="field"><label>Deadline name *</label><input type="text" id="m-dl-name" placeholder="e.g. UCAS deadline"></div>
+    <div class="field"><label>Date *</label><input type="date" id="m-dl-date"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+      <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDeadline()">Add</button>
+    </div>`);
+}
+function saveDeadline(){
+  const name=document.getElementById('m-dl-name').value.trim();
+  const date=document.getElementById('m-dl-date').value;
+  if(!name||!date)return toast('Name and date required',true);
+  _userDeadlines.push({name,date});
+  localStorage.setItem('mc-deadlines',JSON.stringify(_userDeadlines));
+  closeAllModals();renderDashDeadlines();
+}
+function removeDeadline(i){
+  _userDeadlines.splice(i,1);
+  localStorage.setItem('mc-deadlines',JSON.stringify(_userDeadlines));
+  renderDashDeadlines();
+}
+
+// ── CALENDAR VIEWS ────────────────────────────────────────────────────────────
+function setCalView(v){
+  _calView=v;
+  ['list','week','month'].forEach(vv=>{
+    const btn=document.getElementById('cal-view-'+vv);if(!btn)return;
+    btn.style.background=vv===v?'var(--accent)':'transparent';
+    btn.style.color=vv===v?'white':'var(--text2)';
+  });
+  renderCalView(_allEvents);
+}
+function renderCalView(data){
+  if(_calView==='list'){renderEventList(data);}
+  else if(_calView==='week'){renderCalWeek(data);}
+  else if(_calView==='month'){renderCalMonth(data);}
+}
+function filterCalendar(){
+  const q=(document.getElementById('cal-search')?.value||'').toLowerCase();
+  const tag=document.getElementById('cal-filter-tag')?.value||'';
+  const sort=document.getElementById('cal-filter-sort')?.value||'asc';
+  let data=_allEvents.filter(e=>{
+    const matchQ=!q||(e.title||'').toLowerCase().includes(q);
+    const matchT=!tag||e.event_type===tag;
+    return matchQ&&matchT;
+  });
+  data.sort((a,b)=>sort==='asc'?new Date(a.event_date)-new Date(b.event_date):new Date(b.event_date)-new Date(a.event_date));
+  renderCalView(data);
+}
+function renderCalWeek(data){
+  const el=document.getElementById('event-list');
+  const today=new Date();today.setHours(0,0,0,0);
+  const dow=today.getDay();
+  const monday=new Date(today);monday.setDate(today.getDate()-(dow===0?6:dow-1));
+  const weeks=[];
+  for(let w=0;w<4;w++){
+    const wStart=new Date(monday);wStart.setDate(monday.getDate()+w*7);
+    const days=[];
+    for(let d=0;d<7;d++){
+      const day=new Date(wStart);day.setDate(wStart.getDate()+d);
+      const dayStr=day.toISOString().slice(0,10);
+      const evs=data.filter(e=>e.event_date===dayStr);
+      days.push({day,evs});
+    }
+    weeks.push(days);
+  }
+  const dayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  el.innerHTML=weeks.map((wk,wi)=>{
+    const wLabel=wi===0?'This week':wi===1?'Next week':`Week of ${wk[0].day.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}`;
+    return`<div style="margin-bottom:1.5rem;">
+      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);margin-bottom:8px;">${wLabel}</div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">
+        ${wk.map(({day,evs},di)=>{
+          const isToday=day.toISOString().slice(0,10)===new Date().toISOString().slice(0,10);
+          return`<div style="background:${isToday?'var(--accent-light)':'var(--surface)'};border:1px solid ${isToday?'var(--accent2)':'var(--border)'};border-radius:var(--radius-sm);padding:8px;min-height:72px;">
+            <div style="font-size:11px;font-weight:600;color:${isToday?'var(--accent)':'var(--text3)'};">${dayNames[di]}</div>
+            <div style="font-size:13px;font-weight:500;color:${isToday?'var(--accent)':'var(--text)'};">${day.getDate()}</div>
+            ${evs.map(e=>`<div style="font-size:10px;background:var(--accent-light);color:var(--accent-text);padding:2px 4px;border-radius:3px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${e.title}">${e.title}</div>`).join('')}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderCalMonth(data){
+  const el=document.getElementById('event-list');
+  const today=new Date();
+  const year=today.getFullYear(),month=today.getMonth();
+  const firstDay=new Date(year,month,1);
+  const lastDay=new Date(year,month+1,0);
+  const startDow=firstDay.getDay()===0?6:firstDay.getDay()-1;
+  const dayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const cells=[];
+  for(let i=0;i<startDow;i++)cells.push(null);
+  for(let d=1;d<=lastDay.getDate();d++)cells.push(d);
+  while(cells.length%7!==0)cells.push(null);
+  const monthStr=today.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  el.innerHTML=`<div style="font-size:16px;font-weight:600;font-family:'DM Serif Display',serif;margin-bottom:12px;">${monthStr}</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border-radius:var(--radius-sm);overflow:hidden;">
+      ${dayNames.map(d=>`<div style="background:var(--surface2);padding:6px 4px;font-size:11px;font-weight:600;text-align:center;color:var(--text3);">${d}</div>`).join('')}
+      ${cells.map(d=>{
+        if(!d)return`<div style="background:var(--bg);min-height:60px;"></div>`;
+        const dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const evs=data.filter(e=>e.event_date===dateStr);
+        const isToday=d===today.getDate();
+        return`<div style="background:${isToday?'var(--accent-light)':'var(--surface)'};min-height:60px;padding:4px 6px;">
+          <div style="font-size:12px;font-weight:${isToday?'700':'400'};color:${isToday?'var(--accent)':'var(--text)'};">${d}</div>
+          ${evs.map(e=>`<div style="font-size:10px;background:var(--accent-light);color:var(--accent-text);padding:1px 4px;border-radius:2px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${e.title}">${e.title}</div>`).join('')}
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+// ── PLAN B ────────────────────────────────────────────────────────────────────
+async function loadPlanB(){
+  await loadPlanBItems();
+  const{data}=await sb.from('plan_b').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+  const el=document.getElementById('planb-list');
+  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No Plan B options yet</div><div class="empty-sub">Add alternative pathways — graduate medicine, dentistry, biomedical science, healthcare roles, or other careers</div></div>`;return;}
+  el.innerHTML=data.map(p=>`<div class="uni-card">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:10px;">
+      <div style="font-size:15px;font-weight:600;">${p.title}</div>
+      ${p.category?`<span class="badge badge-blue">${p.category}</span>`:''}
+    </div>
+    ${p.how_it_works?`<div style="font-size:12.5px;color:var(--text2);margin-bottom:6px;line-height:1.5;">${stripHTML(p.how_it_works).substring(0,120)}...</div>`:''}
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="btn btn-outline btn-sm" onclick="viewPlanB('${p.id}')">View</button>
+      <button class="btn btn-outline btn-sm" onclick="editPlanB('${p.id}')">Edit</button>
+      <button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;" onclick="deletePlanB('${p.id}')">Delete</button>
+    </div>
+  </div>`).join('');
+}
+let _planBItems={};
+async function loadPlanBItems(){
+  const{data}=await sb.from('plan_b').select('*').eq('user_id',currentUser.id);
+  _planBItems={};
+  if(data)data.forEach(p=>{_planBItems[p.id]=p;});
+}
+function viewPlanB(id){
+  const p=_planBItems[id];if(!p)return;
+  const sections=[
+    {key:'how_it_works',label:'How it works'},
+    {key:'requirements',label:'Requirements'},
+    {key:'pros',label:'Why it appeals to me'},
+    {key:'cons',label:'Concerns or downsides'},
+    {key:'next_steps',label:'Next steps / actions'},
+    {key:'notes',label:'Other notes'}
+  ];
+  openModal(`<div style="font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:4px;">${p.title}</div>
+    ${p.category?`<span class="badge badge-blue" style="margin-bottom:1.5rem;display:inline-flex;">${p.category}</span>`:''}
+    ${sections.filter(s=>p[s.key]).map(s=>`<div style="margin-bottom:1rem;">
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);margin-bottom:6px;">${s.label}</div>
+      <div style="font-size:13.5px;line-height:1.7;background:var(--surface2);padding:12px;border-radius:var(--radius-sm);">${p[s.key]}</div>
+    </div>`).join('')}
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+      <button class="btn btn-outline" onclick="closeAllModals()">Close</button>
+      <button class="btn btn-primary" onclick="closeAllModals();editPlanB('${id}')">Edit</button>
+    </div>`);
+}
+function planBForm(p){
+  return`
+    <div class="field"><label>Title / Option name *</label><input type="text" id="m-pb-title" value="${p?p.title||'':''}" placeholder="e.g. Graduate Medicine, Dentistry, Biomedical Science"></div>
+    <div class="field"><label>Category</label><input type="text" id="m-pb-cat" value="${p?p.category||'':''}" placeholder="e.g. Healthcare, Science, Business"></div>
+    <div class="field"><label>How it works</label><div id="m-pb-how-wrap"></div></div>
+    <div class="field"><label>Requirements (grades, entry tests, experience)</label><div id="m-pb-req-wrap"></div></div>
+    <div class="field"><label>Why it appeals to me</label><div id="m-pb-pros-wrap"></div></div>
+    <div class="field"><label>Concerns or downsides</label><div id="m-pb-cons-wrap"></div></div>
+    <div class="field"><label>Next steps / actions</label><div id="m-pb-next-wrap"></div></div>
+    <div class="field"><label>Other notes</label><div id="m-pb-notes-wrap"></div></div>`;
+}
+function showAddPlanB(){
+  openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Add Plan B option</div>${planBForm(null)}<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;"><button class="btn btn-outline" onclick="closeAllModals()">Cancel</button><button class="btn btn-primary" onclick="savePlanB()">Add</button></div>`);
+  document.getElementById('m-pb-how-wrap').innerHTML=makeRTE('m-pb-how','How does this pathway work?...');
+  document.getElementById('m-pb-req-wrap').innerHTML=makeRTE('m-pb-req','What grades, tests or experience are needed?...');
+  document.getElementById('m-pb-pros-wrap').innerHTML=makeRTE('m-pb-pros','What interests you about this option?...');
+  document.getElementById('m-pb-cons-wrap').innerHTML=makeRTE('m-pb-cons','What concerns you about this option?...');
+  document.getElementById('m-pb-next-wrap').innerHTML=makeRTE('m-pb-next','What would you need to do to pursue this?...');
+  document.getElementById('m-pb-notes-wrap').innerHTML=makeRTE('m-pb-notes','Any other thoughts...');
+}
+async function savePlanB(){
+  const title=document.getElementById('m-pb-title').value.trim();if(!title)return toast('Title required',true);
+  const{error}=await sb.from('plan_b').insert({user_id:currentUser.id,title,category:document.getElementById('m-pb-cat').value,how_it_works:rteGet('m-pb-how'),requirements:rteGet('m-pb-req'),pros:rteGet('m-pb-pros'),cons:rteGet('m-pb-cons'),next_steps:rteGet('m-pb-next'),notes:rteGet('m-pb-notes')});
+  if(error)return toast('Error: '+error.message,true);
+  closeAllModals();toast('Added!');loadPlanB();loadPlanBItems();
+}
+async function editPlanB(id){
+  if(!_planBItems[id])await loadPlanBItems();
+  const p=_planBItems[id];if(!p)return;
+  openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Edit Plan B option</div>${planBForm(p)}<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;"><button class="btn btn-outline" onclick="closeAllModals()">Cancel</button><button class="btn btn-primary" onclick="updatePlanB('${id}')">Save</button></div>`);
+  document.getElementById('m-pb-how-wrap').innerHTML=makeRTE('m-pb-how','');
+  document.getElementById('m-pb-req-wrap').innerHTML=makeRTE('m-pb-req','');
+  document.getElementById('m-pb-pros-wrap').innerHTML=makeRTE('m-pb-pros','');
+  document.getElementById('m-pb-cons-wrap').innerHTML=makeRTE('m-pb-cons','');
+  document.getElementById('m-pb-next-wrap').innerHTML=makeRTE('m-pb-next','');
+  document.getElementById('m-pb-notes-wrap').innerHTML=makeRTE('m-pb-notes','');
+  rteSet('m-pb-how',p.how_it_works||'');rteSet('m-pb-req',p.requirements||'');rteSet('m-pb-pros',p.pros||'');rteSet('m-pb-cons',p.cons||'');rteSet('m-pb-next',p.next_steps||'');rteSet('m-pb-notes',p.notes||'');
+}
+async function updatePlanB(id){
+  const title=document.getElementById('m-pb-title').value.trim();if(!title)return toast('Title required',true);
+  const{error}=await sb.from('plan_b').update({title,category:document.getElementById('m-pb-cat').value,how_it_works:rteGet('m-pb-how'),requirements:rteGet('m-pb-req'),pros:rteGet('m-pb-pros'),cons:rteGet('m-pb-cons'),next_steps:rteGet('m-pb-next'),notes:rteGet('m-pb-notes'),updated_at:new Date().toISOString()}).eq('id',id);
+  if(error)return toast('Error',true);closeAllModals();toast('Saved!');loadPlanB();loadPlanBItems();
+}
+async function deletePlanB(id){if(!confirm('Delete?'))return;await sb.from('plan_b').delete().eq('id',id);toast('Deleted');loadPlanB();}
+
+// ── TO-DO ─────────────────────────────────────────────────────────────────────
+function manageTodoTags(){openModal(tagManagerHTML(todoTags,'addTodoTag','removeTodoTag','To-do tags'));}
+function addTodoTag(){const v=document.getElementById('tm-input').value.trim();if(v&&!todoTags.includes(v)){todoTags.push(v);localStorage.setItem('mc-todo-tags',JSON.stringify(todoTags));}document.getElementById('tm-input').value='';refreshTMList(todoTags,'removeTodoTag');}
+function removeTodoTag(i){todoTags.splice(i,1);localStorage.setItem('mc-todo-tags',JSON.stringify(todoTags));refreshTMList(todoTags,'removeTodoTag');}
+
+async function loadTodo(){
+  const{data}=await sb.from('todos').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+  if(!data)return;
+  _allTodos=data;
+  populateSelect('todo-filter-tag',todoTags,'All tags');
+  renderTodoList(data);
+}
+function filterTodos(){
+  const q=(document.getElementById('todo-search')?.value||'').toLowerCase();
+  const tag=document.getElementById('todo-filter-tag')?.value||'';
+  const status=document.getElementById('todo-filter-status')?.value||'';
+  let data=_allTodos.filter(t=>{
+    const matchQ=!q||(t.title||'').toLowerCase().includes(q);
+    const matchT=!tag||t.tag===tag;
+    const matchS=!status||(status==='done'?t.done:!t.done);
+    return matchQ&&matchT&&matchS;
+  });
+  renderTodoList(data);
+}
+function clearTodoFilter(){const s=document.getElementById('todo-search');if(s)s.value='';const f=document.getElementById('todo-filter-tag');if(f)f.value='';const fs=document.getElementById('todo-filter-status');if(fs)fs.value='';renderTodoList(_allTodos);}
+function renderTodoList(data){
+  const el=document.getElementById('todo-list');
+  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No tasks yet</div><div class="empty-sub">Add tasks, reminders and action items</div></div>`;return;}
+  el.innerHTML=data.map(t=>`<div class="dl-card" style="opacity:${t.done?0.55:1};">
+    <div onclick="toggleTodo('${t.id}',${!t.done})" style="width:20px;height:20px;border-radius:4px;border:2px solid ${t.done?'var(--accent)':'var(--border2)'};background:${t.done?'var(--accent)':'transparent'};cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      ${t.done?'<svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
+    </div>
+    <div style="flex:1;${t.done?'text-decoration:line-through;':''}"">
+      <div style="font-size:13.5px;font-weight:500;">${t.title}</div>
+      ${t.notes?`<div style="font-size:12px;color:var(--text2);margin-top:2px;">${stripHTML(t.notes).substring(0,80)}${stripHTML(t.notes).length>80?'...':''}</div>`:''}
+    </div>
+    ${t.tag?`<span class="badge badge-${tagColor(todoTags,t.tag)}">${t.tag}</span>`:''}
+    <button class="btn btn-outline btn-sm" style="margin-left:8px;" onclick="editTodo('${t.id}')">Edit</button>
+    <button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;margin-left:6px;" onclick="deleteTodo('${t.id}')">×</button>
+  </div>`).join('');
+}
+async function toggleTodo(id,done){
+  await sb.from('todos').update({done}).eq('id',id);
+  const t=_allTodos.find(t=>t.id===id);if(t)t.done=done;
+  renderTodoList(_allTodos);
+}
+function showAddTodo(){
+  const tagOpts=todoTags.map(t=>`<option>${t}</option>`).join('');
+  openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Add task</div>
+    <div class="field"><label>Task *</label><input type="text" id="m-td-title" placeholder="What needs to be done?"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="field"><label>Tag</label><select id="m-td-tag" class="sel"><option value="">No tag</option>${tagOpts}</select></div>
+      <div class="field"><label>Due date (optional)</label><input type="date" id="m-td-due"></div>
+    </div>
+    <div class="field"><label>Notes</label><div id="m-td-notes-wrap"></div></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+      <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTodo()">Add task</button>
+    </div>`);
+  document.getElementById('m-td-notes-wrap').innerHTML=makeRTE('m-td-notes','Any notes or details...');
+}
+async function saveTodo(){
+  const title=document.getElementById('m-td-title').value.trim();if(!title)return toast('Title required',true);
+  const{error}=await sb.from('todos').insert({user_id:currentUser.id,title,tag:document.getElementById('m-td-tag').value||null,due_date:document.getElementById('m-td-due').value||null,notes:rteGet('m-td-notes'),done:false});
+  if(error)return toast('Error: '+error.message,true);closeAllModals();toast('Task added!');loadTodo();
+}
+async function editTodo(id){
+  const t=_allTodos.find(t=>t.id===id);if(!t)return;
+  const tagOpts=todoTags.map(tt=>`<option${tt===t.tag?' selected':''}>${tt}</option>`).join('');
+  openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Edit task</div>
+    <div class="field"><label>Task *</label><input type="text" id="m-td-title" value="${t.title||''}"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="field"><label>Tag</label><select id="m-td-tag" class="sel"><option value="">No tag</option>${tagOpts}</select></div>
+      <div class="field"><label>Due date</label><input type="date" id="m-td-due" value="${t.due_date||''}"></div>
+    </div>
+    <div class="field"><label>Notes</label><div id="m-td-notes-wrap"></div></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+      <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-primary" onclick="updateTodo('${id}')">Save</button>
+    </div>`);
+  document.getElementById('m-td-notes-wrap').innerHTML=makeRTE('m-td-notes','');
+  rteSet('m-td-notes',t.notes||'');
+}
+async function updateTodo(id){
+  const title=document.getElementById('m-td-title').value.trim();if(!title)return toast('Title required',true);
+  const{error}=await sb.from('todos').update({title,tag:document.getElementById('m-td-tag').value||null,due_date:document.getElementById('m-td-due').value||null,notes:rteGet('m-td-notes'),updated_at:new Date().toISOString()}).eq('id',id);
+  if(error)return toast('Error',true);closeAllModals();toast('Saved!');loadTodo();
+}
+async function deleteTodo(id){if(!confirm('Delete?'))return;await sb.from('todos').delete().eq('id',id);toast('Deleted');loadTodo();}
+
+// ── EVIDENCE ──────────────────────────────────────────────────────────────────
+function manageEvidenceTags(){openModal(tagManagerHTML(evidenceTags,'addEvTag','removeEvTag','Evidence tags'));}
+function addEvTag(){const v=document.getElementById('tm-input').value.trim();if(v&&!evidenceTags.includes(v)){evidenceTags.push(v);localStorage.setItem('mc-ev-tags',JSON.stringify(evidenceTags));}document.getElementById('tm-input').value='';refreshTMList(evidenceTags,'removeEvTag');}
+function removeEvTag(i){evidenceTags.splice(i,1);localStorage.setItem('mc-ev-tags',JSON.stringify(evidenceTags));refreshTMList(evidenceTags,'removeEvTag');}
+
+async function loadEvidence(){
+  const{data}=await sb.from('evidence_files').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+  if(!data)return;
+  _allEvidence=data;
+  populateSelect('ev-filter-tag',evidenceTags,'All tags');
+  renderEvidenceList(data);
+}
+function filterEvidence(){
+  const q=(document.getElementById('ev-search')?.value||'').toLowerCase();
+  const tag=document.getElementById('ev-filter-tag')?.value||'';
+  const data=_allEvidence.filter(e=>(!q||(e.title||'').toLowerCase().includes(q))&&(!tag||e.tag===tag));
+  renderEvidenceList(data);
+}
+function clearEvFilter(){const s=document.getElementById('ev-search');if(s)s.value='';const f=document.getElementById('ev-filter-tag');if(f)f.value='';renderEvidenceList(_allEvidence);}
+function fileIcon(mime){
+  if(!mime)return'📄';
+  if(mime.includes('pdf'))return'📕';
+  if(mime.includes('word')||mime.includes('document'))return'📘';
+  if(mime.includes('image'))return'🖼';
+  if(mime.includes('powerpoint')||mime.includes('presentation'))return'📙';
+  return'📄';
+}
+function renderEvidenceList(data){
+  const el=document.getElementById('evidence-list');
+  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No evidence uploaded yet</div><div class="empty-sub">Upload PDFs, images, Word documents and certificates</div></div>`;return;}
+  el.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">${data.map(e=>`
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+      <div style="height:100px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:40px;">${fileIcon(e.mime_type)}</div>
+      <div style="padding:12px;">
+        <div style="font-size:13.5px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${e.title}">${e.title||'Untitled'}</div>
+        ${e.tag?`<span class="badge badge-${tagColor(evidenceTags,e.tag)}" style="margin-bottom:6px;">${e.tag}</span>`:''}
+        ${e.notes?`<div style="font-size:12px;color:var(--text2);line-height:1.4;margin-top:4px;">${e.notes.substring(0,60)}${e.notes.length>60?'...':''}</div>`:''}
+        <div style="display:flex;gap:6px;margin-top:10px;">
+          ${e.file_url?`<a href="${e.file_url}" target="_blank" title="Open file" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;background:var(--accent-light);color:var(--accent);text-decoration:none;font-size:14px;">↗</a>`:''}
+          <button title="Delete" onclick="deleteEvidence('${e.id}')" style="width:30px;height:30px;border-radius:6px;background:var(--red-light);color:var(--red);border:none;cursor:pointer;font-size:14px;">✕</button>
+        </div>
+      </div>
+    </div>`).join('')}</div>`;
+}
+function showAddEvidence(){
+  const tagOpts=evidenceTags.map(t=>`<option>${t}</option>`).join('');
+  openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Upload evidence</div>
+    <div class="field"><label>Title *</label><input type="text" id="m-ev-title" placeholder="e.g. St John Ambulance Certificate"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="field"><label>Tag</label><select id="m-ev-tag" class="sel"><option value="">No tag</option>${tagOpts}</select></div>
+    </div>
+    <div class="field"><label>File (PDF, PNG, JPG, Word, PowerPoint)</label>
+      <input type="file" id="m-ev-file" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.ppt,.pptx" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);">
+    </div>
+    <div class="field"><label>Notes</label><textarea id="m-ev-notes" style="width:100%;min-height:70px;padding:9px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13.5px;background:var(--bg);color:var(--text);outline:none;resize:vertical;" placeholder="Any notes about this file..."></textarea></div>
+    <div id="ev-upload-status" style="font-size:13px;color:var(--text3);"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+      <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-primary" onclick="uploadEvidence()">Upload</button>
+    </div>`);
+}
+async function uploadEvidence(){
+  const title=document.getElementById('m-ev-title').value.trim();
+  const file=document.getElementById('m-ev-file').files[0];
+  if(!title)return toast('Title required',true);
+  if(!file)return toast('Please select a file',true);
+  const statusEl=document.getElementById('ev-upload-status');
+  statusEl.textContent='Uploading...';
+  const ext=file.name.split('.').pop();
+  const path=`${currentUser.id}/${Date.now()}.${ext}`;
+  const{data:upData,error:upErr}=await sb.storage.from('evidence').upload(path,file,{contentType:file.type,upsert:false});
+  if(upErr){statusEl.textContent='Upload failed: '+upErr.message;return;}
+  const{data:urlData}=sb.storage.from('evidence').getPublicUrl(path);
+  const{error}=await sb.from('evidence_files').insert({user_id:currentUser.id,title,tag:document.getElementById('m-ev-tag').value||null,notes:document.getElementById('m-ev-notes').value,file_url:urlData.publicUrl,file_name:file.name,mime_type:file.type,storage_path:path});
+  if(error){statusEl.textContent='Save failed: '+error.message;return;}
+  closeAllModals();toast('File uploaded!');loadEvidence();
+}
+async function deleteEvidence(id){
+  if(!confirm('Delete this file?'))return;
+  const e=_allEvidence.find(e=>e.id===id);
+  if(e?.storage_path)await sb.storage.from('evidence').remove([e.storage_path]);
+  await sb.from('evidence_files').delete().eq('id',id);
+  toast('Deleted');loadEvidence();
 }
 
 // ── MODALS ────────────────────────────────────────────────────────────────────
@@ -1156,7 +1630,11 @@ function showAddEntry(){
     <div class="field"><label>Title *</label><input type="text" id="m-e-title" placeholder="e.g. GP Surgery Shadowing"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
       <div class="field"><label>Category</label><select id="m-e-cat" class="sel">${catOpts}</select></div>
-      <div class="field"><label>Duration</label><input type="text" id="m-e-dur" placeholder="2 weeks · March 2025"></div>
+      <div class="field"><label>Duration (optional description)</label><input type="text" id="m-e-dur" placeholder="e.g. 2 weeks"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="field"><label>Start date</label><input type="date" id="m-e-start"></div>
+      <div class="field"><label>End date (leave blank if ongoing)</label><input type="date" id="m-e-end"></div>
     </div>
     <div class="field"><label>Description</label><div id="m-e-desc-wrap"></div></div>
     <div class="kolb-box">
@@ -1179,7 +1657,7 @@ function showAddEntry(){
 }
 async function saveEntry(){
   const title=document.getElementById('m-e-title').value.trim();if(!title)return toast('Title required',true);
-  const{error}=await sb.from('portfolio_entries').insert({user_id:currentUser.id,title,category:document.getElementById('m-e-cat').value,duration:document.getElementById('m-e-dur').value,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae')});
+  const{error}=await sb.from('portfolio_entries').insert({user_id:currentUser.id,title,category:document.getElementById('m-e-cat').value,duration:document.getElementById('m-e-dur').value,start_date:document.getElementById('m-e-start').value||null,end_date:document.getElementById('m-e-end').value||null,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae')});
   if(error)return toast('Error: '+error.message,true);closeAllModals();toast('Entry added!');loadPortfolio();loadDashboard();
 }
 async function editEntry(id){
@@ -1189,7 +1667,11 @@ async function editEntry(id){
     <div class="field"><label>Title *</label><input type="text" id="m-e-title" value="${e.title||''}"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
       <div class="field"><label>Category</label><select id="m-e-cat" class="sel">${catOpts}</select></div>
-      <div class="field"><label>Duration</label><input type="text" id="m-e-dur" value="${e.duration||''}"></div>
+      <div class="field"><label>Duration (optional description)</label><input type="text" id="m-e-dur" value="${e.duration||''}"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="field"><label>Start date</label><input type="date" id="m-e-start" value="${e.start_date||''}"></div>
+      <div class="field"><label>End date (leave blank if ongoing)</label><input type="date" id="m-e-end" value="${e.end_date||''}"></div>
     </div>
     <div class="field"><label>Description</label><div id="m-e-desc-wrap"></div></div>
     <div class="kolb-box">
@@ -1213,7 +1695,7 @@ async function editEntry(id){
 }
 async function updateEntry(id){
   const title=document.getElementById('m-e-title').value.trim();if(!title)return toast('Title required',true);
-  const{error}=await sb.from('portfolio_entries').update({title,category:document.getElementById('m-e-cat').value,duration:document.getElementById('m-e-dur').value,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae'),updated_at:new Date().toISOString()}).eq('id',id);
+  const{error}=await sb.from('portfolio_entries').update({title,category:document.getElementById('m-e-cat').value,duration:document.getElementById('m-e-dur').value,start_date:document.getElementById('m-e-start').value||null,end_date:document.getElementById('m-e-end').value||null,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae'),updated_at:new Date().toISOString()}).eq('id',id);
   if(error)return toast('Error',true);closeAllModals();toast('Saved!');loadPortfolio();
 }
 async function deleteEntry(id){if(!confirm('Delete this entry?'))return;await sb.from('portfolio_entries').delete().eq('id',id);toast('Deleted');loadPortfolio();loadDashboard();}
