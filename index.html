@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MediArc</title>
+<title>MedBlueprint</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -182,7 +182,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
   <div class="auth-card">
     <div class="auth-logo">
       <div class="auth-logo-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></div>
-      <span class="auth-logo-name">MediArc</span>
+      <span class="auth-logo-name">MedBlueprint</span>
     </div>
     <div id="msg-area"></div>
     <div id="login-view">
@@ -216,7 +216,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
     <div class="step-dots" id="step-dots"></div>
     <div class="ob-step active" id="ob-1">
       <div class="ob-icon" style="background:var(--accent-light)"><svg width="28" height="28" viewBox="0 0 24 24" fill="#1a5c3e"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></div>
-      <div class="ob-title">Welcome to MediArc</div>
+      <div class="ob-title">Welcome to MedBlueprint</div>
       <div class="ob-sub">Your all-in-one platform for organising your UK medical school application. Let's spend 2 minutes setting things up.</div>
       <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem;">
         <div class="ci"><div class="ci-icon" style="background:var(--accent-light);">1</div><div style="font-size:13.5px;">Tell us about your application</div></div>
@@ -229,7 +229,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
     <div class="ob-step" id="ob-2">
       <div class="ob-icon" style="background:var(--blue-light)"><svg width="28" height="28" viewBox="0 0 24 24" fill="#1a4a8c"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg></div>
       <div class="ob-title">Your application</div>
-      <div class="ob-sub">This lets MediArc calculate your correct UCAS and UCAT deadlines automatically.</div>
+      <div class="ob-sub">This lets MedBlueprint calculate your correct UCAS and UCAT deadlines automatically.</div>
       <div class="field"><label>Which year are you applying to start medicine?</label><select id="ob-year" class="sel"><option value="2026">2026 entry</option><option value="2027">2027 entry</option><option value="2028">2028 entry</option></select></div>
       <div class="field"><label>Predicted / achieved A-level grades</label><input type="text" id="ob-grades" placeholder="e.g. A*AA"></div>
       <div class="field"><label>Subjects</label><input type="text" id="ob-subjects" placeholder="e.g. Biology, Chemistry, Maths"></div>
@@ -285,7 +285,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
   <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></div>
-      <span class="logo-name">MediArc</span>
+      <span class="logo-name">MedBlueprint</span>
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section">
@@ -325,7 +325,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
   <main class="main">
     <div class="topbar">
       <div class="topbar-title" id="topbar-title">Dashboard</div>
-      <div style="display:flex;gap:10px;align-items:center;"><span class="badge badge-green" id="entry-year-badge">MediArc</span></div>
+      <div style="display:flex;gap:10px;align-items:center;"><span class="badge badge-green" id="entry-year-badge">MedBlueprint</span></div>
     </div>
 
     <!-- DASHBOARD -->
@@ -573,7 +573,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
 
     <!-- GUIDE -->
     <div id="page-guide" class="page hidden">
-      <div class="section-header"><div><div class="section-title">Guide</div><div class="section-sub">How to use MediArc and tips for your application</div></div></div>
+      <div class="section-header"><div><div class="section-title">Guide</div><div class="section-sub">How to use MedBlueprint and tips for your application</div></div></div>
       <div class="guide-section">
         <div class="guide-section-title">Getting started checklist</div>
         <div class="card" style="margin-bottom:1.5rem;">
@@ -737,7 +737,7 @@ function obPrev(){if(obStep>1){obStep--;showOBStep(obStep);}}
 async function finishOB(){const ey=parseInt(document.getElementById('ob-year')?.value)||2026;const grades=document.getElementById('ob-grades')?.value||'';const{data:ex}=await sb.from('profiles').select('id').eq('id',currentUser.id).single();if(ex){await sb.from('profiles').update({entry_year:ey,predicted_grades:grades}).eq('id',currentUser.id);}else{await sb.from('profiles').insert({id:currentUser.id,full_name:currentUser.user_metadata?.full_name||'',entry_year:ey,predicted_grades:grades});}if(selectedUnis.length>0)await sb.from('universities').insert(selectedUnis.map(u=>({user_id:currentUser.id,name:u.name,city:u.city,status:'Considering',alevel_requirement:'AAA',ucat_required:true})));userProfile={entry_year:ey,predicted_grades:grades};document.getElementById('ob-wrap').classList.add('hidden');enterApp();}
 
 // ── ENTER APP ─────────────────────────────────────────────────────────────────
-function enterApp(){document.getElementById('auth-wrap').classList.add('hidden');document.getElementById('ob-wrap').classList.add('hidden');document.getElementById('app').classList.remove('hidden');const name=currentUser.user_metadata?.full_name||currentUser.email;const initials=name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);document.getElementById('user-avatar').textContent=initials;document.getElementById('user-name-display').textContent=name.split(' ')[0];const ey=userProfile?.entry_year;document.getElementById('user-sub-display').textContent=(ey?ey+' entry · ':'')+' sign out';document.getElementById('entry-year-badge').textContent=ey?ey+' entry':'MediArc';navigate('dashboard');}
+function enterApp(){document.getElementById('auth-wrap').classList.add('hidden');document.getElementById('ob-wrap').classList.add('hidden');document.getElementById('app').classList.remove('hidden');const name=currentUser.user_metadata?.full_name||currentUser.email;const initials=name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);document.getElementById('user-avatar').textContent=initials;document.getElementById('user-name-display').textContent=name.split(' ')[0];const ey=userProfile?.entry_year;document.getElementById('user-sub-display').textContent=(ey?ey+' entry · ':'')+' sign out';document.getElementById('entry-year-badge').textContent=ey?ey+' entry':'MedBlueprint';navigate('dashboard');}
 
 // ── NAV ───────────────────────────────────────────────────────────────────────
 const PAGE_TITLES={dashboard:'Dashboard',universities:'University Explorer',applications:'Applications',portfolio:'Portfolio Builder',ps:'Personal Statement',whymed:'Why Medicine',reading:'Wider Reading',networking:'Networking',calendar:'Calendar',ucat:'UCAT Tracker',guide:'Guide',planb:'Plan B',todo:'To-Do',evidence:'Evidence'};
