@@ -374,12 +374,18 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
           <button class="btn btn-primary btn-sm" onclick="showAddUni()">+ Add university</button>
         </div>
       </div>
-      <div id="uni-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
-        <input type="text" id="uni-search" placeholder="Search by name or city..." oninput="filterUniversities()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-        <select id="uni-filter-status" onchange="filterUniversities()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-          <option value="">All statuses</option>
-        </select>
-        <button class="btn btn-outline btn-sm" onclick="clearUniFilter()">Clear</button>
+      <div id="uni-filter-bar" style="margin-bottom:1rem;">
+        <div style="display:flex;gap:8px;margin-bottom:8px;">
+          <input type="text" id="uni-search" placeholder="Search by name or city..." oninput="filterUniversities()" style="flex:1;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <select id="uni-filter-status" onchange="filterUniversities()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+            <option value="">All statuses</option>
+          </select>
+          <button class="btn btn-outline btn-sm" onclick="clearUniFilter()">Clear</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+          <span style="font-size:12px;color:var(--text3);">Filter by tag:</span>
+          <div id="uni-tag-filters" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+        </div>
       </div>
       <div id="uni-list"><div class="loading-state">Loading...</div></div>
     </div>
@@ -399,12 +405,13 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
           <button class="btn btn-primary btn-sm" onclick="showAddEntry()">+ Add entry</button>
         </div>
       </div>
-      <div id="port-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
-        <input type="text" id="port-search" placeholder="Search by title..." oninput="filterPortfolio()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-        <select id="port-filter-cat" onchange="filterPortfolio()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-          <option value="">All categories</option>
-        </select>
-        <button class="btn btn-outline btn-sm" onclick="clearPortFilter()">Clear</button>
+      <div id="port-filter-bar" style="margin-bottom:1rem;">
+        <input type="text" id="port-search" placeholder="Search by title..." oninput="filterPortfolio()" style="width:100%;margin-bottom:8px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+          <span style="font-size:12px;color:var(--text3);">Filter by tag:</span>
+          <div id="port-tag-filters" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+          <button class="btn btn-outline btn-sm" onclick="clearPortFilter()">Clear</button>
+        </div>
       </div>
       <div id="portfolio-list"><div class="loading-state">Loading...</div></div>
     </div>
@@ -466,15 +473,13 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
           <button class="btn btn-outline btn-sm" onclick="showAddReading()">+ Add</button>
         </div>
       </div>
-      <div id="read-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
-        <input type="text" id="read-search" placeholder="Search by title or author..." oninput="filterReading()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-        <select id="read-filter-type" onchange="filterReading()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-          <option value="">All types</option>
-        </select>
-        <select id="read-filter-status" onchange="filterReading()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-          <option value="">All statuses</option>
-        </select>
-        <button class="btn btn-outline btn-sm" onclick="clearReadFilter()">Clear</button>
+      <div id="read-filter-bar" style="margin-bottom:1rem;">
+        <input type="text" id="read-search" placeholder="Search by title or author..." oninput="filterReading()" style="width:100%;margin-bottom:8px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+          <span style="font-size:12px;color:var(--text3);">Filter by tag:</span>
+          <div id="read-tag-filters" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+          <button class="btn btn-outline btn-sm" onclick="clearReadFilter()">Clear</button>
+        </div>
       </div>
       <div id="reading-list"><div class="loading-state">Loading...</div></div>
     </div>
@@ -535,17 +540,20 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
           <button class="btn btn-primary btn-sm" onclick="showAddTodo()">+ Add task</button>
         </div>
       </div>
-      <div id="todo-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
-        <input type="text" id="todo-search" placeholder="Search tasks..." oninput="filterTodos()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-        <select id="todo-filter-tag" onchange="filterTodos()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-          <option value="">All tags</option>
-        </select>
-        <select id="todo-filter-status" onchange="filterTodos()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-          <option value="">All</option>
-          <option value="open">Open</option>
-          <option value="done">Done</option>
-        </select>
-        <button class="btn btn-outline btn-sm" onclick="clearTodoFilter()">Clear</button>
+      <div id="todo-filter-bar" style="margin-bottom:1rem;">
+        <div style="display:flex;gap:8px;margin-bottom:8px;">
+          <input type="text" id="todo-search" placeholder="Search tasks..." oninput="filterTodos()" style="flex:1;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+          <select id="todo-filter-status" onchange="filterTodos()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+            <option value="">All</option>
+            <option value="open">Open</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+          <span style="font-size:12px;color:var(--text3);">Filter by tag:</span>
+          <div id="todo-tag-filters" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+          <button class="btn btn-outline btn-sm" onclick="clearTodoFilter()">Clear</button>
+        </div>
       </div>
       <div id="todo-list"><div class="loading-state">Loading...</div></div>
     </div>
@@ -559,12 +567,13 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
           <button class="btn btn-primary btn-sm" onclick="showAddEvidence()">+ Upload</button>
         </div>
       </div>
-      <div id="evidence-filter-bar" style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
-        <input type="text" id="ev-search" placeholder="Search by title..." oninput="filterEvidence()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-        <select id="ev-filter-tag" onchange="filterEvidence()" style="padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
-          <option value="">All tags</option>
-        </select>
-        <button class="btn btn-outline btn-sm" onclick="clearEvFilter()">Clear</button>
+      <div id="evidence-filter-bar" style="margin-bottom:1rem;">
+        <input type="text" id="ev-search" placeholder="Search by title..." oninput="filterEvidence()" style="width:100%;margin-bottom:8px;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none;">
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+          <span style="font-size:12px;color:var(--text3);">Filter by tag:</span>
+          <div id="ev-tag-filters" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+          <button class="btn btn-outline btn-sm" onclick="clearEvFilter()">Clear</button>
+        </div>
       </div>
       <div id="evidence-list"><div class="loading-state">Loading...</div></div>
     </div>
@@ -771,11 +780,32 @@ function navigate(page){
 
 // ── FILTER STATE ─────────────────────────────────────────────────────────────
 let _allUnis=[],_allPort=[],_allReading=[],_allContacts=[],_allEvents=[];
+let _activePortTags=new Set(),_activeReadTags=new Set(),_activeTodoTags=new Set(),_activeEvTags=new Set(),_activeUniTags=new Set();
 
 function populateSelect(id, options, placeholder){
   const el=document.getElementById(id);if(!el)return;
   const cur=el.value;
   el.innerHTML=`<option value="">${placeholder}</option>`+options.map(o=>`<option value="${o}"${o===cur?' selected':''}>${o}</option>`).join('');
+}
+
+function renderTagFilters(containerId, allTags, activeSet, toggleFn){
+  const el=document.getElementById(containerId);if(!el)return;
+  // Gather all tags that appear in current data
+  el.innerHTML=allTags.map(t=>{
+    const active=activeSet.has(t);
+    return`<span onclick="${toggleFn}('${t}')" style="cursor:pointer;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid ${active?'var(--accent)':'var(--border2)'};background:${active?'var(--accent-light)':'var(--surface)'};color:${active?'var(--accent-text)':'var(--text2)'};">${t}</span>`;
+  }).join('');
+}
+function togglePortTag(t){_activePortTags.has(t)?_activePortTags.delete(t):_activePortTags.add(t);renderTagFilters('port-tag-filters',portTags,_activePortTags,'togglePortTag');filterPortfolio();}
+function toggleReadTag(t){_activeReadTags.has(t)?_activeReadTags.delete(t):_activeReadTags.add(t);renderTagFilters('read-tag-filters',readingTags,_activeReadTags,'toggleReadTag');filterReading();}
+function toggleTodoTag(t){_activeTodoTags.has(t)?_activeTodoTags.delete(t):_activeTodoTags.add(t);renderTagFilters('todo-tag-filters',todoTags,_activeTodoTags,'toggleTodoTag');filterTodos();}
+function toggleEvTag(t){_activeEvTags.has(t)?_activeEvTags.delete(t):_activeEvTags.add(t);renderTagFilters('ev-tag-filters',evidenceTags,_activeEvTags,'toggleEvTag');filterEvidence();}
+function toggleUniTag(t){_activeUniTags.has(t)?_activeUniTags.delete(t):_activeUniTags.add(t);renderTagFilters('uni-tag-filters',uniTags,_activeUniTags,'toggleUniTag');filterUniversities();}
+function tagsMatch(itemTagsJSON,activeSet){
+  if(activeSet.size===0)return true;
+  const itemTags=JSON.parse(itemTagsJSON||'[]');
+  for(const t of activeSet){if(!itemTags.includes(t))return false;}
+  return true;
 }
 
 // MULTI-TAG PICKER — up to 5 tags per entry
@@ -818,50 +848,47 @@ function filterUniversities(){
   let data=_allUnis.filter(u=>{
     const matchQ=!q||(u.name||'').toLowerCase().includes(q)||(u.city||'').toLowerCase().includes(q);
     const matchS=!status||u.status===status;
-    return matchQ&&matchS;
+    const matchT=tagsMatch(u.tags,_activeUniTags);
+    return matchQ&&matchS&&matchT;
   });
   renderUniList(data);
 }
 function clearUniFilter(){
   const s=document.getElementById('uni-search');if(s)s.value='';
   const f=document.getElementById('uni-filter-status');if(f)f.value='';
+  _activeUniTags.clear();renderTagFilters('uni-tag-filters',uniTags,_activeUniTags,'toggleUniTag');
   renderUniList(_allUnis);
 }
 
 // PORTFOLIO FILTER
 function filterPortfolio(){
   const q=(document.getElementById('port-search')?.value||'').toLowerCase();
-  const cat=document.getElementById('port-filter-cat')?.value||'';
   let data=_allPort.filter(e=>{
     const matchQ=!q||(e.title||'').toLowerCase().includes(q)||(e.duration||'').toLowerCase().includes(q);
-    const matchC=!cat||e.category===cat;
-    return matchQ&&matchC;
+    const matchT=tagsMatch(e.tags,_activePortTags);
+    return matchQ&&matchT;
   });
   renderPortList(data);
 }
 function clearPortFilter(){
   const s=document.getElementById('port-search');if(s)s.value='';
-  const f=document.getElementById('port-filter-cat');if(f)f.value='';
+  _activePortTags.clear();renderTagFilters('port-tag-filters',portTags,_activePortTags,'togglePortTag');
   renderPortList(_allPort);
 }
 
 // READING FILTER
 function filterReading(){
   const q=(document.getElementById('read-search')?.value||'').toLowerCase();
-  const type=document.getElementById('read-filter-type')?.value||'';
-  const status=document.getElementById('read-filter-status')?.value||'';
   let data=_allReading.filter(r=>{
     const matchQ=!q||(r.title||'').toLowerCase().includes(q)||(r.author||'').toLowerCase().includes(q);
-    const matchT=!type||r.type===type;
-    const matchS=!status||r.reflection_status===status;
-    return matchQ&&matchT&&matchS;
+    const matchT=tagsMatch(r.tags,_activeReadTags);
+    return matchQ&&matchT;
   });
   renderReadingList(data);
 }
 function clearReadFilter(){
   const s=document.getElementById('read-search');if(s)s.value='';
-  const ft=document.getElementById('read-filter-type');if(ft)ft.value='';
-  const fs=document.getElementById('read-filter-status');if(fs)fs.value='';
+  _activeReadTags.clear();renderTagFilters('read-tag-filters',readingTags,_activeReadTags,'toggleReadTag');
   renderReadingList(_allReading);
 }
 
@@ -920,6 +947,7 @@ async function loadUniversities(){
   if(!data){return;}
   _allUnis=data;
   populateSelect('uni-filter-status',uniTags,'All statuses');
+  renderTagFilters('uni-tag-filters',uniTags,_activeUniTags,'toggleUniTag');
   renderUniList(data);
 }
 function renderUniList(data){
@@ -981,7 +1009,7 @@ async function loadPortfolio(){
   if(!data){return;}
   _portEntries={};data.forEach(e=>{_portEntries[e.id]=e;});
   _allPort=data;
-  populateSelect('port-filter-cat',portTags,'All categories');
+  renderTagFilters('port-tag-filters',portTags,_activePortTags,'togglePortTag');
   renderPortList(data);
 }
 function renderPortList(data){
@@ -991,7 +1019,7 @@ function renderPortList(data){
     <div class="entry-top">
       <div>
         <div style="font-size:14px;font-weight:600;margin-bottom:3px;">${e.title}</div>
-        <div style="font-size:12.5px;color:var(--text2);display:flex;flex-wrap:wrap;gap:4px;align-items:center;"><span class="badge badge-${tagColor(portTags,e.category)}">${e.category}</span>${e.tags&&JSON.parse(e.tags).length?tagsHTML(JSON.parse(e.tags),portTags):''}${e.start_date?` &nbsp;·&nbsp; ${new Date(e.start_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}${e.end_date?' – '+new Date(e.end_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):' – ongoing'}`:e.duration?` &nbsp;·&nbsp; ${e.duration}`:''}</div>
+        <div style="font-size:12.5px;color:var(--text2);display:flex;flex-wrap:wrap;gap:4px;align-items:center;">${e.tags&&JSON.parse(e.tags||'[]').length?tagsHTML(JSON.parse(e.tags||'[]'),portTags):'<span style=\'color:var(--text3);\'>No tags</span>'}${e.start_date?` &nbsp;·&nbsp; ${new Date(e.start_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}${e.end_date?' – '+new Date(e.end_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):' – ongoing'}`:e.duration?` &nbsp;·&nbsp; ${e.duration}`:''}</div>
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
         <button class="btn btn-outline btn-sm" onclick="viewEntry('${e.id}')">View</button>
@@ -1087,8 +1115,7 @@ async function loadReading(){
   const{data}=await sb.from('wider_reading').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
   if(!data){return;}
   _allReading=data;
-  populateSelect('read-filter-type',readingTags,'All types');
-  populateSelect('read-filter-status',readingStatus,'All statuses');
+  renderTagFilters('read-tag-filters',readingTags,_activeReadTags,'toggleReadTag');
   renderReadingList(data);
 }
 function renderReadingList(data){
@@ -1101,9 +1128,8 @@ function renderReadingList(data){
         <div style="font-size:14px;font-weight:600;">${r.title}</div>
         ${r.author?`<div style="font-size:12.5px;color:var(--text2);">by ${r.author}</div>`:''}
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
-          <span class="badge badge-gray">${r.type||'Book'}</span>
+          ${r.tags&&JSON.parse(r.tags||'[]').length?tagsHTML(JSON.parse(r.tags||'[]'),readingTags):r.type?`<span class="badge badge-gray">${r.type}</span>`:''}
           <span class="badge badge-${statusColors[r.reflection_status]||'gray'}">${r.reflection_status||'To do'}</span>
-          ${r.tags&&JSON.parse(r.tags).length?tagsHTML(JSON.parse(r.tags),readingTags):''}
         </div>
       </div>
       <button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;flex-shrink:0;" onclick="deleteReading('${r.id}')">Delete</button>
@@ -1416,22 +1442,21 @@ async function loadTodo(){
   const{data}=await sb.from('todos').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
   if(!data)return;
   _allTodos=data;
-  populateSelect('todo-filter-tag',todoTags,'All tags');
+  renderTagFilters('todo-tag-filters',todoTags,_activeTodoTags,'toggleTodoTag');
   renderTodoList(data);
 }
 function filterTodos(){
   const q=(document.getElementById('todo-search')?.value||'').toLowerCase();
-  const tag=document.getElementById('todo-filter-tag')?.value||'';
   const status=document.getElementById('todo-filter-status')?.value||'';
   let data=_allTodos.filter(t=>{
     const matchQ=!q||(t.title||'').toLowerCase().includes(q);
-    const matchT=!tag||t.tag===tag;
+    const matchT=tagsMatch(t.tag,_activeTodoTags);
     const matchS=!status||(status==='done'?t.done:!t.done);
     return matchQ&&matchT&&matchS;
   });
   renderTodoList(data);
 }
-function clearTodoFilter(){const s=document.getElementById('todo-search');if(s)s.value='';const f=document.getElementById('todo-filter-tag');if(f)f.value='';const fs=document.getElementById('todo-filter-status');if(fs)fs.value='';renderTodoList(_allTodos);}
+function clearTodoFilter(){const s=document.getElementById('todo-search');if(s)s.value='';const fs=document.getElementById('todo-filter-status');if(fs)fs.value='';_activeTodoTags.clear();renderTagFilters('todo-tag-filters',todoTags,_activeTodoTags,'toggleTodoTag');renderTodoList(_allTodos);}
 function renderTodoList(data){
   const el=document.getElementById('todo-list');
   if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No tasks yet</div><div class="empty-sub">Add tasks, reminders and action items</div></div>`;return;}
@@ -1508,16 +1533,15 @@ async function loadEvidence(){
   const{data}=await sb.from('evidence_files').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
   if(!data)return;
   _allEvidence=data;
-  populateSelect('ev-filter-tag',evidenceTags,'All tags');
+  renderTagFilters('ev-tag-filters',evidenceTags,_activeEvTags,'toggleEvTag');
   renderEvidenceList(data);
 }
 function filterEvidence(){
   const q=(document.getElementById('ev-search')?.value||'').toLowerCase();
-  const tag=document.getElementById('ev-filter-tag')?.value||'';
-  const data=_allEvidence.filter(e=>(!q||(e.title||'').toLowerCase().includes(q))&&(!tag||e.tag===tag));
+  const data=_allEvidence.filter(e=>(!q||(e.title||'').toLowerCase().includes(q))&&tagsMatch(e.tags,_activeEvTags));
   renderEvidenceList(data);
 }
-function clearEvFilter(){const s=document.getElementById('ev-search');if(s)s.value='';const f=document.getElementById('ev-filter-tag');if(f)f.value='';renderEvidenceList(_allEvidence);}
+function clearEvFilter(){const s=document.getElementById('ev-search');if(s)s.value='';_activeEvTags.clear();renderTagFilters('ev-tag-filters',evidenceTags,_activeEvTags,'toggleEvTag');renderEvidenceList(_allEvidence);}
 function fileIcon(mime){
   if(!mime)return'📄';
   if(mime.includes('pdf'))return'📕';
@@ -1683,19 +1707,17 @@ async function deleteUni(id){if(!confirm('Delete this university?'))return;await
 
 // ADD / EDIT PORTFOLIO ENTRY
 function showAddEntry(){
-  const catOpts=portTags.map(t=>`<option>${t}</option>`).join('');
   openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Add portfolio entry</div>
     <div class="field"><label>Title *</label><input type="text" id="m-e-title" placeholder="e.g. GP Surgery Shadowing"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-      <div class="field"><label>Category</label><select id="m-e-cat" class="sel">${catOpts}</select></div>
       <div class="field"><label>Duration (optional description)</label><input type="text" id="m-e-dur" placeholder="e.g. 2 weeks"></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
       <div class="field"><label>Start date</label><input type="date" id="m-e-start"></div>
       <div class="field"><label>End date (leave blank if ongoing)</label><input type="date" id="m-e-end"></div>
     </div>
+    <div class="field"><label>Tags (up to 5) — used to categorise your entry</label><div id="m-e-tags-wrap"></div></div>
     <div class="field"><label>Description</label><div id="m-e-desc-wrap"></div></div>
-    <div class="field"><label>Tags (up to 5)</label><div id="m-e-tags-wrap"></div></div>
     <div class="kolb-box">
       <div class="kolb-title" style="color:var(--accent);">Kolb's Reflective Cycle</div>
       <div class="kolb-sub">Use all four stages for deep, meaningful reflection</div>
@@ -1717,24 +1739,22 @@ function showAddEntry(){
 }
 async function saveEntry(){
   const title=document.getElementById('m-e-title').value.trim();if(!title)return toast('Title required',true);
-  const{error}=await sb.from('portfolio_entries').insert({user_id:currentUser.id,title,category:document.getElementById('m-e-cat').value,duration:document.getElementById('m-e-dur').value,start_date:document.getElementById('m-e-start').value||null,end_date:document.getElementById('m-e-end').value||null,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae'),tags:JSON.stringify(getTagPickerValue('e-tags'))});
+  const tags=getTagPickerValue('e-tags');const{error}=await sb.from('portfolio_entries').insert({user_id:currentUser.id,title,category:tags.length?tags[0]:'',duration:document.getElementById('m-e-dur').value,start_date:document.getElementById('m-e-start').value||null,end_date:document.getElementById('m-e-end').value||null,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae'),tags:JSON.stringify(tags)});
   if(error)return toast('Error: '+error.message,true);closeAllModals();toast('Entry added!');loadPortfolio();loadDashboard();
 }
 async function editEntry(id){
   const{data:e}=await sb.from('portfolio_entries').select('*').eq('id',id).single();if(!e)return;
-  const catOpts=portTags.map(t=>`<option${t===e.category?' selected':''}>${t}</option>`).join('');
   openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Edit entry</div>
     <div class="field"><label>Title *</label><input type="text" id="m-e-title" value="${e.title||''}"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-      <div class="field"><label>Category</label><select id="m-e-cat" class="sel">${catOpts}</select></div>
       <div class="field"><label>Duration (optional description)</label><input type="text" id="m-e-dur" value="${e.duration||''}"></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
       <div class="field"><label>Start date</label><input type="date" id="m-e-start" value="${e.start_date||''}"></div>
       <div class="field"><label>End date (leave blank if ongoing)</label><input type="date" id="m-e-end" value="${e.end_date||''}"></div>
     </div>
-    <div class="field"><label>Description</label><div id="m-e-desc-wrap"></div></div>
     <div class="field"><label>Tags (up to 5)</label><div id="m-e-tags-wrap"></div></div>
+    <div class="field"><label>Description</label><div id="m-e-desc-wrap"></div></div>
     <div class="kolb-box">
       <div class="kolb-title" style="color:var(--accent);">Kolb's Reflective Cycle</div>
       <div class="kolb-sub">Use all four stages for deep, meaningful reflection</div>
@@ -1753,16 +1773,16 @@ async function editEntry(id){
   document.getElementById('m-e-ac-wrap').innerHTML=makeRTE('m-e-ac','What did you learn?...');
   document.getElementById('m-e-ae-wrap').innerHTML=makeRTE('m-e-ae','What will you do next time?...');
   rteSet('m-e-desc',e.description||'');rteSet('m-e-ce',e.kolb_ce||'');rteSet('m-e-ro',e.kolb_ro||'');rteSet('m-e-ac',e.kolb_ac||'');rteSet('m-e-ae',e.kolb_ae||'');
+  document.getElementById('m-e-tags-wrap').innerHTML=makeTagPickerHTML('e-tags',portTags,e.tags?JSON.parse(e.tags):[]);
 }
 async function updateEntry(id){
   const title=document.getElementById('m-e-title').value.trim();if(!title)return toast('Title required',true);
-  const{error}=await sb.from('portfolio_entries').update({title,category:document.getElementById('m-e-cat').value,duration:document.getElementById('m-e-dur').value,start_date:document.getElementById('m-e-start').value||null,end_date:document.getElementById('m-e-end').value||null,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae'),tags:JSON.stringify(getTagPickerValue('e-tags')),updated_at:new Date().toISOString()}).eq('id',id);
+  const utags=getTagPickerValue('e-tags');const{error}=await sb.from('portfolio_entries').update({title,category:utags.length?utags[0]:'',duration:document.getElementById('m-e-dur').value,start_date:document.getElementById('m-e-start').value||null,end_date:document.getElementById('m-e-end').value||null,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae'),tags:JSON.stringify(utags),updated_at:new Date().toISOString()}).eq('id',id);
   if(error)return toast('Error',true);closeAllModals();toast('Saved!');loadPortfolio();
 }
 async function deleteEntry(id){if(!confirm('Delete this entry?'))return;await sb.from('portfolio_entries').delete().eq('id',id);toast('Deleted');loadPortfolio();loadDashboard();}
 
 function showAddReading(){
-  const typeOpts=readingTags.map(t=>`<option>${t}</option>`).join('');
   const statusOpts=readingStatus.map(t=>`<option>${t}</option>`).join('');
   openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Add wider reading</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
@@ -1770,10 +1790,9 @@ function showAddReading(){
       <div class="field"><label>Author / Source</label><input type="text" id="m-r-author" placeholder="e.g. Siddhartha Mukherjee"></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-      <div class="field"><label>Type</label><select id="m-r-type" class="sel">${typeOpts}</select></div>
       <div class="field"><label>Status</label><select id="m-r-status" class="sel">${statusOpts}</select></div>
     </div>
-    <div class="field"><label>Tags (up to 5)</label><div id="m-r-tags-wrap"></div></div>
+    <div class="field"><label>Tags (up to 5) — e.g. Book, Journal, Podcast</label><div id="m-r-tags-wrap"></div></div>
     <div class="field"><label>Why are you reading this? What drew you to it?</label><div id="m-r-why-wrap"></div></div>
     <div class="field"><label>Key themes and ideas</label><div id="m-r-themes-wrap"></div></div>
     <div class="field"><label>Reflection — what did you learn and how does it relate to medicine?</label><div id="m-r-ref-wrap"></div></div>
@@ -1789,7 +1808,7 @@ function showAddReading(){
 async function saveReading(){
   const title=document.getElementById('m-r-title').value.trim();if(!title)return toast('Title required',true);
   const reflection=[rteGet('m-r-why'),rteGet('m-r-themes'),rteGet('m-r-ref')].filter(Boolean).join('\n\n');
-  const{error}=await sb.from('wider_reading').insert({user_id:currentUser.id,title,author:document.getElementById('m-r-author').value,type:document.getElementById('m-r-type').value,reflection_status:document.getElementById('m-r-status').value,reflection,tags:JSON.stringify(getTagPickerValue('r-tags'))});
+  const rtags=getTagPickerValue('r-tags');const{error}=await sb.from('wider_reading').insert({user_id:currentUser.id,title,author:document.getElementById('m-r-author').value,type:rtags.length?rtags[0]:'',reflection_status:document.getElementById('m-r-status').value,reflection,tags:JSON.stringify(rtags)});
   if(error)return toast('Error: '+error.message,true);closeAllModals();toast('Added!');loadReading();
 }
 async function deleteReading(id){if(!confirm('Delete?'))return;await sb.from('wider_reading').delete().eq('id',id);toast('Deleted');loadReading();}
