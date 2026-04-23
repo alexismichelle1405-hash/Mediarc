@@ -150,6 +150,12 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
 .tag-manager{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
 .tag-pill{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500;background:var(--surface2);color:var(--text2);border:1px solid var(--border2)}
 .tag-pill-remove{cursor:pointer;font-size:14px;line-height:1;color:var(--text3)}.tag-pill-remove:hover{color:var(--red)}
+.multi-tag-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:24px;}
+.multi-tag-selected{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:12px;font-weight:500;background:var(--accent-light);color:var(--accent-text);border:1px solid var(--accent2);}
+.multi-tag-selected .rm{cursor:pointer;font-size:13px;line-height:1;margin-left:1px;opacity:0.7;}.multi-tag-selected .rm:hover{opacity:1;}
+.multi-tag-options{display:flex;flex-wrap:wrap;gap:6px;}
+.multi-tag-opt{padding:4px 10px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--text2);transition:all 0.12s;}
+.multi-tag-opt:hover{border-color:var(--accent);color:var(--accent);}
 .tag-add-row{display:flex;gap:8px;margin-bottom:1rem}
 .tag-add-row input{flex:1;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);outline:none}
 .tag-add-row input:focus{border-color:var(--accent)}
@@ -772,6 +778,39 @@ function populateSelect(id, options, placeholder){
   el.innerHTML=`<option value="">${placeholder}</option>`+options.map(o=>`<option value="${o}"${o===cur?' selected':''}>${o}</option>`).join('');
 }
 
+// MULTI-TAG PICKER — up to 5 tags per entry
+// Usage: makeTagPicker('picker-id', availableTags, existingTagsArray)
+// Get value: getTagPickerValue('picker-id') → array
+function makeTagPickerHTML(id, availableTags, existing){
+  existing=existing||[];
+  return `<div id="mtp-${id}" data-selected='${JSON.stringify(existing)}'>
+    <div class="multi-tag-wrap" id="mtp-selected-${id}">${existing.map(t=>`<span class="multi-tag-selected">${t}<span class="rm" onclick="mtpRemove('${id}','${t}')">×</span></span>`).join('')}</div>
+    <div class="multi-tag-options">${availableTags.map(t=>`<span class="multi-tag-opt" onclick="mtpAdd('${id}','${t}')">${t}</span>`).join('')}</div>
+    <div style="font-size:11px;color:var(--text3);margin-top:6px;">Up to 5 tags</div>
+  </div>`;
+}
+function mtpAdd(id,tag){
+  const wrap=document.getElementById('mtp-'+id);if(!wrap)return;
+  let sel=JSON.parse(wrap.dataset.selected||'[]');
+  if(sel.includes(tag)||sel.length>=5)return;
+  sel.push(tag);wrap.dataset.selected=JSON.stringify(sel);
+  document.getElementById('mtp-selected-'+id).innerHTML=sel.map(t=>`<span class="multi-tag-selected">${t}<span class="rm" onclick="mtpRemove('${id}','${t}')">×</span></span>`).join('');
+}
+function mtpRemove(id,tag){
+  const wrap=document.getElementById('mtp-'+id);if(!wrap)return;
+  let sel=JSON.parse(wrap.dataset.selected||'[]');
+  sel=sel.filter(t=>t!==tag);wrap.dataset.selected=JSON.stringify(sel);
+  document.getElementById('mtp-selected-'+id).innerHTML=sel.map(t=>`<span class="multi-tag-selected">${t}<span class="rm" onclick="mtpRemove('${id}','${t}')">×</span></span>`).join('');
+}
+function getTagPickerValue(id){
+  const wrap=document.getElementById('mtp-'+id);
+  return wrap?JSON.parse(wrap.dataset.selected||'[]'):[];
+}
+function tagsHTML(tagsArr,tagList){
+  if(!tagsArr||!tagsArr.length)return'';
+  return tagsArr.map(t=>`<span class="badge badge-${tagColor(tagList,t)}">${t}</span>`).join(' ');
+}
+
 // UNIVERSITIES FILTER
 function filterUniversities(){
   const q=(document.getElementById('uni-search')?.value||'').toLowerCase();
@@ -897,6 +936,7 @@ function renderUniList(data){
       ${u.ucat_typical_min?`<span class="badge badge-gray">UCAT ${u.ucat_typical_min}+</span>`:''}
     </div>
     ${u.notes?`<div style="font-size:12.5px;color:var(--text2);line-height:1.5;">${linkify(u.notes)}</div>`:''}
+    ${u.tags&&JSON.parse(u.tags).length?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">${tagsHTML(JSON.parse(u.tags),uniTags)}</div>`:''}
     <div style="display:flex;gap:8px;margin-top:12px;">
       <button class="btn btn-outline btn-sm" onclick="viewUni('${u.id}')">View</button>
       <button class="btn btn-outline btn-sm" onclick="editUni('${u.id}')">Edit</button>
@@ -951,7 +991,7 @@ function renderPortList(data){
     <div class="entry-top">
       <div>
         <div style="font-size:14px;font-weight:600;margin-bottom:3px;">${e.title}</div>
-        <div style="font-size:12.5px;color:var(--text2);"><span class="badge badge-${tagColor(portTags,e.category)}">${e.category}</span>${e.start_date?` &nbsp;·&nbsp; ${new Date(e.start_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}${e.end_date?' – '+new Date(e.end_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):' – ongoing'}`:e.duration?` &nbsp;·&nbsp; ${e.duration}`:''}</div>
+        <div style="font-size:12.5px;color:var(--text2);display:flex;flex-wrap:wrap;gap:4px;align-items:center;"><span class="badge badge-${tagColor(portTags,e.category)}">${e.category}</span>${e.tags&&JSON.parse(e.tags).length?tagsHTML(JSON.parse(e.tags),portTags):''}${e.start_date?` &nbsp;·&nbsp; ${new Date(e.start_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}${e.end_date?' – '+new Date(e.end_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):' – ongoing'}`:e.duration?` &nbsp;·&nbsp; ${e.duration}`:''}</div>
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
         <button class="btn btn-outline btn-sm" onclick="viewEntry('${e.id}')">View</button>
@@ -1060,9 +1100,10 @@ function renderReadingList(data){
       <div>
         <div style="font-size:14px;font-weight:600;">${r.title}</div>
         ${r.author?`<div style="font-size:12.5px;color:var(--text2);">by ${r.author}</div>`:''}
-        <div style="display:flex;gap:8px;margin-top:6px;">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
           <span class="badge badge-gray">${r.type||'Book'}</span>
           <span class="badge badge-${statusColors[r.reflection_status]||'gray'}">${r.reflection_status||'To do'}</span>
+          ${r.tags&&JSON.parse(r.tags).length?tagsHTML(JSON.parse(r.tags),readingTags):''}
         </div>
       </div>
       <button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;flex-shrink:0;" onclick="deleteReading('${r.id}')">Delete</button>
@@ -1402,7 +1443,7 @@ function renderTodoList(data){
       <div style="font-size:13.5px;font-weight:500;">${t.title}</div>
       ${t.notes?`<div style="font-size:12px;color:var(--text2);margin-top:2px;">${stripHTML(t.notes).substring(0,80)}${stripHTML(t.notes).length>80?'...':''}</div>`:''}
     </div>
-    ${t.tag?`<span class="badge badge-${tagColor(todoTags,t.tag)}">${t.tag}</span>`:''}
+    ${t.tag&&JSON.parse(t.tag||'[]').length?`<div style="display:flex;gap:4px;flex-wrap:wrap;">${tagsHTML(JSON.parse(t.tag||'[]'),todoTags)}</div>`:''}
     <button class="btn btn-outline btn-sm" style="margin-left:8px;" onclick="editTodo('${t.id}')">Edit</button>
     <button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;margin-left:6px;" onclick="deleteTodo('${t.id}')">×</button>
   </div>`).join('');
@@ -1417,19 +1458,20 @@ function showAddTodo(){
   openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Add task</div>
     <div class="field"><label>Task *</label><input type="text" id="m-td-title" placeholder="What needs to be done?"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-      <div class="field"><label>Tag</label><select id="m-td-tag" class="sel"><option value="">No tag</option>${tagOpts}</select></div>
       <div class="field"><label>Due date (optional)</label><input type="date" id="m-td-due"></div>
     </div>
+    <div class="field"><label>Tags (up to 5)</label><div id="m-td-tags-wrap"></div></div>
     <div class="field"><label>Notes</label><div id="m-td-notes-wrap"></div></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
       <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
       <button class="btn btn-primary" onclick="saveTodo()">Add task</button>
     </div>`);
+  document.getElementById('m-td-tags-wrap').innerHTML=makeTagPickerHTML('td-tags',todoTags,[]);
   document.getElementById('m-td-notes-wrap').innerHTML=makeRTE('m-td-notes','Any notes or details...');
 }
 async function saveTodo(){
   const title=document.getElementById('m-td-title').value.trim();if(!title)return toast('Title required',true);
-  const{error}=await sb.from('todos').insert({user_id:currentUser.id,title,tag:document.getElementById('m-td-tag').value||null,due_date:document.getElementById('m-td-due').value||null,notes:rteGet('m-td-notes'),done:false});
+  const{error}=await sb.from('todos').insert({user_id:currentUser.id,title,tag:JSON.stringify(getTagPickerValue('td-tags')),due_date:document.getElementById('m-td-due').value||null,notes:rteGet('m-td-notes'),done:false});
   if(error)return toast('Error: '+error.message,true);closeAllModals();toast('Task added!');loadTodo();
 }
 async function editTodo(id){
@@ -1438,20 +1480,21 @@ async function editTodo(id){
   openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Edit task</div>
     <div class="field"><label>Task *</label><input type="text" id="m-td-title" value="${t.title||''}"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-      <div class="field"><label>Tag</label><select id="m-td-tag" class="sel"><option value="">No tag</option>${tagOpts}</select></div>
       <div class="field"><label>Due date</label><input type="date" id="m-td-due" value="${t.due_date||''}"></div>
     </div>
+    <div class="field"><label>Tags (up to 5)</label><div id="m-td-tags-wrap"></div></div>
     <div class="field"><label>Notes</label><div id="m-td-notes-wrap"></div></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
       <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
       <button class="btn btn-primary" onclick="updateTodo('${id}')">Save</button>
     </div>`);
+  document.getElementById('m-td-tags-wrap').innerHTML=makeTagPickerHTML('td-tags',todoTags,t.tag?JSON.parse(t.tag):[]);
   document.getElementById('m-td-notes-wrap').innerHTML=makeRTE('m-td-notes','');
   rteSet('m-td-notes',t.notes||'');
 }
 async function updateTodo(id){
   const title=document.getElementById('m-td-title').value.trim();if(!title)return toast('Title required',true);
-  const{error}=await sb.from('todos').update({title,tag:document.getElementById('m-td-tag').value||null,due_date:document.getElementById('m-td-due').value||null,notes:rteGet('m-td-notes'),updated_at:new Date().toISOString()}).eq('id',id);
+  const{error}=await sb.from('todos').update({title,tag:JSON.stringify(getTagPickerValue('td-tags')),due_date:document.getElementById('m-td-due').value||null,notes:rteGet('m-td-notes'),updated_at:new Date().toISOString()}).eq('id',id);
   if(error)return toast('Error',true);closeAllModals();toast('Saved!');loadTodo();
 }
 async function deleteTodo(id){if(!confirm('Delete?'))return;await sb.from('todos').delete().eq('id',id);toast('Deleted');loadTodo();}
@@ -1483,15 +1526,27 @@ function fileIcon(mime){
   if(mime.includes('powerpoint')||mime.includes('presentation'))return'📙';
   return'📄';
 }
+function filePreviewHTML(e){
+  const mime=e.mime_type||'';
+  const url=e.file_url||'';
+  if(!url)return`<div style="height:120px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:40px;">${fileIcon(mime)}</div>`;
+  if(mime.includes('image')){
+    return`<img src="${url}" style="width:100%;height:120px;object-fit:cover;display:block;" onerror="this.parentElement.innerHTML='<div style=\'height:120px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:40px;\'>🖼</div>'">`;
+  }
+  if(mime.includes('pdf')){
+    return`<iframe src="${url}#page=1&view=FitH&toolbar=0&navpanes=0&scrollbar=0" style="width:100%;height:120px;border:none;pointer-events:none;display:block;" loading="lazy" onerror="this.outerHTML='<div style=\'height:120px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:40px;\'>📕</div>'"></iframe>`;
+  }
+  return`<div style="height:120px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:40px;">${fileIcon(mime)}</div>`;
+}
 function renderEvidenceList(data){
   const el=document.getElementById('evidence-list');
   if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No evidence uploaded yet</div><div class="empty-sub">Upload PDFs, images, Word documents and certificates</div></div>`;return;}
   el.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">${data.map(e=>`
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
-      <div style="height:100px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:40px;">${fileIcon(e.mime_type)}</div>
+      ${filePreviewHTML(e)}
       <div style="padding:12px;">
         <div style="font-size:13.5px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${e.title}">${e.title||'Untitled'}</div>
-        ${e.tag?`<span class="badge badge-${tagColor(evidenceTags,e.tag)}" style="margin-bottom:6px;">${e.tag}</span>`:''}
+        ${e.tags&&JSON.parse(e.tags||'[]').length?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;">${tagsHTML(JSON.parse(e.tags||'[]'),evidenceTags)}</div>`:e.tag?`<span class="badge badge-gray" style="margin-bottom:6px;">${e.tag}</span>`:''}
         ${e.notes?`<div style="font-size:12px;color:var(--text2);line-height:1.4;margin-top:4px;">${e.notes.substring(0,60)}${e.notes.length>60?'...':''}</div>`:''}
         <div style="display:flex;gap:6px;margin-top:10px;">
           ${e.file_url?`<a href="${e.file_url}" target="_blank" title="Open file" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;background:var(--accent-light);color:var(--accent);text-decoration:none;font-size:14px;">↗</a>`:''}
@@ -1505,13 +1560,12 @@ function showAddEvidence(){
   openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Upload evidence</div>
     <div class="field"><label>Title *</label><input type="text" id="m-ev-title" placeholder="e.g. St John Ambulance Certificate"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-      <div class="field"><label>Tag</label><select id="m-ev-tag" class="sel"><option value="">No tag</option>${tagOpts}</select></div>
     </div>
+    <div class="field"><label>Tags (up to 5)</label><div id="m-ev-tags-wrap"></div></div>
     <div class="field"><label>File (PDF, PNG, JPG, Word, PowerPoint)</label>
       <input type="file" id="m-ev-file" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.ppt,.pptx" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;background:var(--bg);color:var(--text);">
     </div>
     <div class="field"><label>Notes</label><textarea id="m-ev-notes" style="width:100%;min-height:70px;padding:9px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:inherit;font-size:13.5px;background:var(--bg);color:var(--text);outline:none;resize:vertical;" placeholder="Any notes about this file..."></textarea></div>
-    <div id="ev-upload-status" style="font-size:13px;color:var(--text3);"></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
       <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
       <button class="btn btn-primary" onclick="uploadEvidence()">Upload</button>
@@ -1529,7 +1583,7 @@ async function uploadEvidence(){
   const{data:upData,error:upErr}=await sb.storage.from('evidence').upload(path,file,{contentType:file.type,upsert:false});
   if(upErr){statusEl.textContent='Upload failed: '+upErr.message;return;}
   const{data:urlData}=sb.storage.from('evidence').getPublicUrl(path);
-  const{error}=await sb.from('evidence_files').insert({user_id:currentUser.id,title,tag:document.getElementById('m-ev-tag').value||null,notes:document.getElementById('m-ev-notes').value,file_url:urlData.publicUrl,file_name:file.name,mime_type:file.type,storage_path:path});
+  const tags=getTagPickerValue('ev-tags');const{error}=await sb.from('evidence_files').insert({user_id:currentUser.id,title,tag:tags.length?tags[0]:null,tags:JSON.stringify(tags),notes:document.getElementById('m-ev-notes').value,file_url:urlData.publicUrl,file_name:file.name,mime_type:file.type,storage_path:path});
   if(error){statusEl.textContent='Save failed: '+error.message;return;}
   closeAllModals();toast('File uploaded!');loadEvidence();
 }
@@ -1568,10 +1622,12 @@ function showAddUni(){
     <div class="field"><label>2. Course &amp; Teaching — How will I learn here?</label><div id="m-uni-course-wrap"></div></div>
     <div class="field"><label>3. Student Life &amp; Environment — Would I enjoy living here?</label><div id="m-uni-life-wrap"></div></div>
     <div class="field"><label>4. Personal Thoughts — Is this the right fit for me?</label><div id="m-uni-thoughts-wrap"></div></div>
+    <div class="field"><label>Tags (up to 5)</label><div id="m-uni-tags-wrap"></div></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
       <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
       <button class="btn btn-primary" onclick="saveUni()">Add</button>
     </div>`);
+  document.getElementById('m-uni-tags-wrap').innerHTML=makeTagPickerHTML('uni-tags',uniTags,[]);
   document.getElementById('m-uni-notes-wrap').innerHTML=makeRTE('m-uni-notes','Any general notes, links...');
   document.getElementById('m-uni-entry-wrap').innerHTML=makeRTE('m-uni-entry','GCSE/A-level/UCAT requirements, acceptance rates, selection criteria...');
   document.getElementById('m-uni-course-wrap').innerHTML=makeRTE('m-uni-course','Teaching style (PBL/traditional), when clinical starts, what makes this course unique...');
@@ -1580,7 +1636,7 @@ function showAddUni(){
 }
 async function saveUni(){
   const name=document.getElementById('m-uni-name').value.trim();if(!name)return toast('Name required',true);
-  const{error}=await sb.from('universities').insert({user_id:currentUser.id,name,city:document.getElementById('m-uni-city').value,course_name:document.getElementById('m-uni-course').value,alevel_requirement:document.getElementById('m-uni-alevel').value,ucat_typical_min:parseInt(document.getElementById('m-uni-ucat').value)||null,interview_type:document.getElementById('m-uni-interview').value,status:document.getElementById('m-uni-status').value,notes:rteGet('m-uni-notes'),notes_entry:rteGet('m-uni-entry'),notes_course:rteGet('m-uni-course'),notes_life:rteGet('m-uni-life'),notes_thoughts:rteGet('m-uni-thoughts')});
+  const{error}=await sb.from('universities').insert({user_id:currentUser.id,name,city:document.getElementById('m-uni-city').value,course_name:document.getElementById('m-uni-course').value,alevel_requirement:document.getElementById('m-uni-alevel').value,ucat_typical_min:parseInt(document.getElementById('m-uni-ucat').value)||null,interview_type:document.getElementById('m-uni-interview').value,status:document.getElementById('m-uni-status').value,notes:rteGet('m-uni-notes'),notes_entry:rteGet('m-uni-entry'),notes_course:rteGet('m-uni-course'),notes_life:rteGet('m-uni-life'),notes_thoughts:rteGet('m-uni-thoughts'),tags:JSON.stringify(getTagPickerValue('uni-tags'))});
   if(error)return toast('Error: '+error.message,true);closeAllModals();toast('University added!');loadUniversities();loadDashboard();
 }
 async function editUni(id){
@@ -1605,10 +1661,12 @@ async function editUni(id){
     <div class="field"><label>2. Course &amp; Teaching</label><div id="m-uni-course-wrap"></div></div>
     <div class="field"><label>3. Student Life &amp; Environment</label><div id="m-uni-life-wrap"></div></div>
     <div class="field"><label>4. Personal Thoughts</label><div id="m-uni-thoughts-wrap"></div></div>
+    <div class="field"><label>Tags (up to 5)</label><div id="m-uni-tags-wrap"></div></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
       <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
       <button class="btn btn-primary" onclick="updateUni('${id}')">Save</button>
     </div>`);
+  document.getElementById('m-uni-tags-wrap').innerHTML=makeTagPickerHTML('uni-tags',uniTags,u.tags?JSON.parse(u.tags):[]);
   document.getElementById('m-uni-notes-wrap').innerHTML=makeRTE('m-uni-notes','General notes...');
   document.getElementById('m-uni-entry-wrap').innerHTML=makeRTE('m-uni-entry','Entry requirements...');
   document.getElementById('m-uni-course-wrap').innerHTML=makeRTE('m-uni-course','Course and teaching...');
@@ -1618,7 +1676,7 @@ async function editUni(id){
 }
 async function updateUni(id){
   const name=document.getElementById('m-uni-name').value.trim();if(!name)return toast('Name required',true);
-  const{error}=await sb.from('universities').update({name,city:document.getElementById('m-uni-city').value,course_name:document.getElementById('m-uni-course').value,alevel_requirement:document.getElementById('m-uni-alevel').value,ucat_typical_min:parseInt(document.getElementById('m-uni-ucat').value)||null,interview_type:document.getElementById('m-uni-interview').value,status:document.getElementById('m-uni-status').value,notes:rteGet('m-uni-notes'),notes_entry:rteGet('m-uni-entry'),notes_course:rteGet('m-uni-course'),notes_life:rteGet('m-uni-life'),notes_thoughts:rteGet('m-uni-thoughts'),updated_at:new Date().toISOString()}).eq('id',id);
+  const{error}=await sb.from('universities').update({name,city:document.getElementById('m-uni-city').value,course_name:document.getElementById('m-uni-course').value,alevel_requirement:document.getElementById('m-uni-alevel').value,ucat_typical_min:parseInt(document.getElementById('m-uni-ucat').value)||null,interview_type:document.getElementById('m-uni-interview').value,status:document.getElementById('m-uni-status').value,notes:rteGet('m-uni-notes'),notes_entry:rteGet('m-uni-entry'),notes_course:rteGet('m-uni-course'),notes_life:rteGet('m-uni-life'),notes_thoughts:rteGet('m-uni-thoughts'),tags:JSON.stringify(getTagPickerValue('uni-tags')),updated_at:new Date().toISOString()}).eq('id',id);
   if(error)return toast('Error',true);closeAllModals();toast('Saved!');loadUniversities();loadApplications();
 }
 async function deleteUni(id){if(!confirm('Delete this university?'))return;await sb.from('universities').delete().eq('id',id);toast('Deleted');loadUniversities();loadDashboard();}
@@ -1637,6 +1695,7 @@ function showAddEntry(){
       <div class="field"><label>End date (leave blank if ongoing)</label><input type="date" id="m-e-end"></div>
     </div>
     <div class="field"><label>Description</label><div id="m-e-desc-wrap"></div></div>
+    <div class="field"><label>Tags (up to 5)</label><div id="m-e-tags-wrap"></div></div>
     <div class="kolb-box">
       <div class="kolb-title" style="color:var(--accent);">Kolb's Reflective Cycle</div>
       <div class="kolb-sub">Use all four stages for deep, meaningful reflection</div>
@@ -1654,10 +1713,11 @@ function showAddEntry(){
   document.getElementById('m-e-ro-wrap').innerHTML=makeRTE('m-e-ro','What went well? What could have gone better? How did you feel?...');
   document.getElementById('m-e-ac-wrap').innerHTML=makeRTE('m-e-ac','What skills, knowledge, or insights did you gain?...');
   document.getElementById('m-e-ae-wrap').innerHTML=makeRTE('m-e-ae','How will you apply this learning in the future?...');
+  document.getElementById('m-e-tags-wrap').innerHTML=makeTagPickerHTML('e-tags',portTags,[]);
 }
 async function saveEntry(){
   const title=document.getElementById('m-e-title').value.trim();if(!title)return toast('Title required',true);
-  const{error}=await sb.from('portfolio_entries').insert({user_id:currentUser.id,title,category:document.getElementById('m-e-cat').value,duration:document.getElementById('m-e-dur').value,start_date:document.getElementById('m-e-start').value||null,end_date:document.getElementById('m-e-end').value||null,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae')});
+  const{error}=await sb.from('portfolio_entries').insert({user_id:currentUser.id,title,category:document.getElementById('m-e-cat').value,duration:document.getElementById('m-e-dur').value,start_date:document.getElementById('m-e-start').value||null,end_date:document.getElementById('m-e-end').value||null,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae'),tags:JSON.stringify(getTagPickerValue('e-tags'))});
   if(error)return toast('Error: '+error.message,true);closeAllModals();toast('Entry added!');loadPortfolio();loadDashboard();
 }
 async function editEntry(id){
@@ -1674,6 +1734,7 @@ async function editEntry(id){
       <div class="field"><label>End date (leave blank if ongoing)</label><input type="date" id="m-e-end" value="${e.end_date||''}"></div>
     </div>
     <div class="field"><label>Description</label><div id="m-e-desc-wrap"></div></div>
+    <div class="field"><label>Tags (up to 5)</label><div id="m-e-tags-wrap"></div></div>
     <div class="kolb-box">
       <div class="kolb-title" style="color:var(--accent);">Kolb's Reflective Cycle</div>
       <div class="kolb-sub">Use all four stages for deep, meaningful reflection</div>
@@ -1695,7 +1756,7 @@ async function editEntry(id){
 }
 async function updateEntry(id){
   const title=document.getElementById('m-e-title').value.trim();if(!title)return toast('Title required',true);
-  const{error}=await sb.from('portfolio_entries').update({title,category:document.getElementById('m-e-cat').value,duration:document.getElementById('m-e-dur').value,start_date:document.getElementById('m-e-start').value||null,end_date:document.getElementById('m-e-end').value||null,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae'),updated_at:new Date().toISOString()}).eq('id',id);
+  const{error}=await sb.from('portfolio_entries').update({title,category:document.getElementById('m-e-cat').value,duration:document.getElementById('m-e-dur').value,start_date:document.getElementById('m-e-start').value||null,end_date:document.getElementById('m-e-end').value||null,description:rteGet('m-e-desc'),kolb_ce:rteGet('m-e-ce'),kolb_ro:rteGet('m-e-ro'),kolb_ac:rteGet('m-e-ac'),kolb_ae:rteGet('m-e-ae'),tags:JSON.stringify(getTagPickerValue('e-tags')),updated_at:new Date().toISOString()}).eq('id',id);
   if(error)return toast('Error',true);closeAllModals();toast('Saved!');loadPortfolio();
 }
 async function deleteEntry(id){if(!confirm('Delete this entry?'))return;await sb.from('portfolio_entries').delete().eq('id',id);toast('Deleted');loadPortfolio();loadDashboard();}
@@ -1712,6 +1773,7 @@ function showAddReading(){
       <div class="field"><label>Type</label><select id="m-r-type" class="sel">${typeOpts}</select></div>
       <div class="field"><label>Status</label><select id="m-r-status" class="sel">${statusOpts}</select></div>
     </div>
+    <div class="field"><label>Tags (up to 5)</label><div id="m-r-tags-wrap"></div></div>
     <div class="field"><label>Why are you reading this? What drew you to it?</label><div id="m-r-why-wrap"></div></div>
     <div class="field"><label>Key themes and ideas</label><div id="m-r-themes-wrap"></div></div>
     <div class="field"><label>Reflection — what did you learn and how does it relate to medicine?</label><div id="m-r-ref-wrap"></div></div>
@@ -1719,6 +1781,7 @@ function showAddReading(){
       <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
       <button class="btn btn-primary" onclick="saveReading()">Add</button>
     </div>`);
+  document.getElementById('m-r-tags-wrap').innerHTML=makeTagPickerHTML('r-tags',readingTags,[]);
   document.getElementById('m-r-why-wrap').innerHTML=makeRTE('m-r-why','What attracted you to this resource?...');
   document.getElementById('m-r-themes-wrap').innerHTML=makeRTE('m-r-themes','Main ideas, arguments, or findings...');
   document.getElementById('m-r-ref-wrap').innerHTML=makeRTE('m-r-ref','What did you learn? How does it relate to your interest in medicine?...','large');
@@ -1726,13 +1789,13 @@ function showAddReading(){
 async function saveReading(){
   const title=document.getElementById('m-r-title').value.trim();if(!title)return toast('Title required',true);
   const reflection=[rteGet('m-r-why'),rteGet('m-r-themes'),rteGet('m-r-ref')].filter(Boolean).join('\n\n');
-  const{error}=await sb.from('wider_reading').insert({user_id:currentUser.id,title,author:document.getElementById('m-r-author').value,type:document.getElementById('m-r-type').value,reflection_status:document.getElementById('m-r-status').value,reflection});
+  const{error}=await sb.from('wider_reading').insert({user_id:currentUser.id,title,author:document.getElementById('m-r-author').value,type:document.getElementById('m-r-type').value,reflection_status:document.getElementById('m-r-status').value,reflection,tags:JSON.stringify(getTagPickerValue('r-tags'))});
   if(error)return toast('Error: '+error.message,true);closeAllModals();toast('Added!');loadReading();
 }
 async function deleteReading(id){if(!confirm('Delete?'))return;await sb.from('wider_reading').delete().eq('id',id);toast('Deleted');loadReading();}
 
-function showAddContact(){openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Add contact</div><div class="field"><label>Name *</label><input type="text" id="m-c-name" placeholder="e.g. Dr. Sarah Patel"></div><div class="field"><label>Role / Organisation</label><input type="text" id="m-c-role" placeholder="e.g. GP at Woking Surgery"></div><div class="field"><label>Contact details (email, phone, LinkedIn etc.)</label><input type="text" id="m-c-contact" placeholder="e.g. s.patel@nhs.net"></div><div class="field"><label>Notes</label><div id="m-c-notes-wrap"></div></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;"><button class="btn btn-outline" onclick="closeAllModals()">Cancel</button><button class="btn btn-primary" onclick="saveContact()">Add contact</button></div>`);document.getElementById('m-c-notes-wrap').innerHTML=makeRTE('m-c-notes','How you know them, any follow-up actions...');}
-async function saveContact(){const name=document.getElementById('m-c-name').value.trim();if(!name)return toast('Name required',true);const{error}=await sb.from('contacts').insert({user_id:currentUser.id,name,role:document.getElementById('m-c-role').value,contact_details:document.getElementById('m-c-contact').value,notes:rteGet('m-c-notes')});if(error)return toast('Error: '+error.message,true);closeAllModals();toast('Contact added!');loadContacts();}
+function showAddContact(){openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Add contact</div><div class="field"><label>Name *</label><input type="text" id="m-c-name" placeholder="e.g. Dr. Sarah Patel"></div><div class="field"><label>Role / Organisation</label><input type="text" id="m-c-role" placeholder="e.g. GP at Woking Surgery"></div><div class="field"><label>Contact details (email, phone, LinkedIn etc.)</label><input type="text" id="m-c-contact" placeholder="e.g. s.patel@nhs.net"></div><div class="field"><label>Tags (up to 5)</label><div id="m-c-tags-wrap"></div></div><div class="field"><label>Notes</label><div id="m-c-notes-wrap"></div></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;"><button class="btn btn-outline" onclick="closeAllModals()">Cancel</button><button class="btn btn-primary" onclick="saveContact()">Add contact</button></div>`);document.getElementById('m-c-tags-wrap').innerHTML=makeTagPickerHTML('c-tags',['Doctor','GP','Consultant','Nurse','Researcher','Academic','Other'],[]);document.getElementById('m-c-notes-wrap').innerHTML=makeRTE('m-c-notes','How you know them, any follow-up actions...');}
+async function saveContact(){const name=document.getElementById('m-c-name').value.trim();if(!name)return toast('Name required',true);const{error}=await sb.from('contacts').insert({user_id:currentUser.id,name,role:document.getElementById('m-c-role').value,contact_details:document.getElementById('m-c-contact').value,notes:rteGet('m-c-notes'),tags:JSON.stringify(getTagPickerValue('c-tags'))});if(error)return toast('Error: '+error.message,true);closeAllModals();toast('Contact added!');loadContacts();}
 async function deleteContact(id){if(!confirm('Delete?'))return;await sb.from('contacts').delete().eq('id',id);toast('Deleted');loadContacts();}
 
 function showAddEvent(){
