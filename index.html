@@ -1122,12 +1122,14 @@ async function loadReading(){
   renderTagFilters('read-tag-filters',readingTags,_activeReadTags,'toggleReadTag');
   renderReadingList(data);
 }
+let _allReadingItems={};
 function renderReadingList(data){
   const el=document.getElementById('reading-list');
   if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No reading matches</div><div class="empty-sub">Try adjusting your filters</div></div>`;return;}
+  _allReadingItems={};data.forEach(r=>{_allReadingItems[r.id]=r;});
   const statusColors={'To do':'gray',Started:'amber','In progress':'blue',Finished:'green'};
   el.innerHTML=data.map(r=>`<div class="card" style="margin-bottom:0.75rem;">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:10px;">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
       <div>
         <div style="font-size:14px;font-weight:600;">${r.title}</div>
         ${r.author?`<div style="font-size:12.5px;color:var(--text2);">by ${r.author}</div>`:''}
@@ -1136,10 +1138,80 @@ function renderReadingList(data){
           <span class="badge badge-${statusColors[r.reflection_status]||'gray'}">${r.reflection_status||'To do'}</span>
         </div>
       </div>
-      <button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;flex-shrink:0;" onclick="deleteReading('${r.id}')">Delete</button>
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button class="btn btn-outline btn-sm" onclick="viewReading('${r.id}')">View</button>
+        <button class="btn btn-outline btn-sm" onclick="editReading('${r.id}')">Edit</button>
+        <button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;" onclick="deleteReading('${r.id}')">Delete</button>
+      </div>
     </div>
-    ${r.reflection?`<div style="font-size:13px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border);padding-top:10px;">${r.reflection}</div>`:''}
   </div>`).join('');
+}
+
+function viewReading(id){
+  const r=_allReadingItems[id];if(!r)return;
+  const statusColors={'To do':'gray',Started:'amber','In progress':'blue',Finished:'green'};
+  const sections=[
+    {label:'Why I chose this',content:null},
+    {label:'Key themes and ideas',content:null},
+    {label:'Reflection',content:r.reflection}
+  ];
+  // Parse stored reflection sections if they exist
+  openModal(`<div style="font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:4px;">${r.title}</div>
+    ${r.author?`<div style="font-size:13px;color:var(--text2);margin-bottom:10px;">by ${r.author}</div>`:''}
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem;">
+      ${r.tags&&JSON.parse(r.tags||'[]').length?tagsHTML(JSON.parse(r.tags||'[]'),readingTags):r.type?`<span class="badge badge-gray">${r.type}</span>`:''}
+      <span class="badge badge-${statusColors[r.reflection_status]||'gray'}">${r.reflection_status||'To do'}</span>
+    </div>
+    ${r.reflection?`<div style="margin-bottom:1rem;">
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);margin-bottom:6px;">Notes &amp; Reflection</div>
+      <div style="font-size:13.5px;line-height:1.7;background:var(--surface2);padding:12px;border-radius:var(--radius-sm);">${r.reflection}</div>
+    </div>`:'<div style="font-size:13px;color:var(--text3);margin-bottom:1rem;">No reflection notes yet.</div>'}
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+      <button class="btn btn-outline" onclick="closeAllModals()">Close</button>
+      <button class="btn btn-primary" onclick="closeAllModals();editReading('${id}')">Edit</button>
+    </div>`);
+}
+
+function editReading(id){
+  const r=_allReadingItems[id];if(!r)return;
+  const statusOpts=readingStatus.map(t=>`<option${t===r.reflection_status?' selected':''}>${t}</option>`).join('');
+  openModal(`<div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1.5rem;">Edit wider reading</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="field"><label>Title *</label><input type="text" id="m-r-title" value="${r.title||''}"></div>
+      <div class="field"><label>Author / Source</label><input type="text" id="m-r-author" value="${r.author||''}"></div>
+    </div>
+    <div class="field"><label>Status</label><select id="m-r-status" class="sel">${statusOpts}</select></div>
+    <div class="field"><label>Tags (up to 5)</label><div id="m-r-tags-wrap"></div></div>
+    <div class="field"><label>Why are you reading this? What drew you to it?</label><div id="m-r-why-wrap"></div></div>
+    <div class="field"><label>Key themes and ideas</label><div id="m-r-themes-wrap"></div></div>
+    <div class="field"><label>Reflection — what did you learn and how does it relate to medicine?</label><div id="m-r-ref-wrap"></div></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+      <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-primary" onclick="updateReading('${id}')">Save</button>
+    </div>`);
+  document.getElementById('m-r-tags-wrap').innerHTML=makeTagPickerHTML('r-tags',readingTags,r.tags?JSON.parse(r.tags):[]);
+  document.getElementById('m-r-why-wrap').innerHTML=makeRTE('m-r-why','What attracted you to this resource?...');
+  document.getElementById('m-r-themes-wrap').innerHTML=makeRTE('m-r-themes','Main ideas, arguments, or findings...');
+  document.getElementById('m-r-ref-wrap').innerHTML=makeRTE('m-r-ref','What did you learn? How does it relate to your interest in medicine?...','large');
+  // Parse existing reflection back into sections if stored as combined text
+  rteSet('m-r-ref',r.reflection||'');
+}
+
+async function updateReading(id){
+  const title=document.getElementById('m-r-title').value.trim();if(!title)return toast('Title required',true);
+  const rtags=getTagPickerValue('r-tags');
+  const reflection=[rteGet('m-r-why'),rteGet('m-r-themes'),rteGet('m-r-ref')].filter(Boolean).join('\n\n');
+  const{error}=await sb.from('wider_reading').update({
+    title,
+    author:document.getElementById('m-r-author').value,
+    type:rtags.length?rtags[0]:'',
+    reflection_status:document.getElementById('m-r-status').value,
+    reflection,
+    tags:JSON.stringify(rtags),
+    updated_at:new Date().toISOString()
+  }).eq('id',id);
+  if(error)return toast('Error',true);
+  closeAllModals();toast('Saved!');loadReading();
 }
 
 // ── CONTACTS ──────────────────────────────────────────────────────────────────
