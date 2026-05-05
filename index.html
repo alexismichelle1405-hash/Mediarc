@@ -807,7 +807,7 @@ function toggleEvTag(t){_activeEvTags.has(t)?_activeEvTags.delete(t):_activeEvTa
 function toggleUniTag(t){_activeUniTags.has(t)?_activeUniTags.delete(t):_activeUniTags.add(t);renderTagFilters('uni-tag-filters',uniTags,_activeUniTags,'toggleUniTag');filterUniversities();}
 function tagsMatch(itemTagsJSON,activeSet){
   if(activeSet.size===0)return true;
-  const itemTags=JSON.parse(itemTagsJSON||'[]');
+  const itemTags=safeParseTags(itemTagsJSON);
   for(const t of activeSet){if(!itemTags.includes(t))return false;}
   return true;
 }
@@ -839,6 +839,11 @@ function mtpRemove(id,tag){
 function getTagPickerValue(id){
   const wrap=document.getElementById('mtp-'+id);
   return wrap?JSON.parse(wrap.dataset.selected||'[]'):[];
+}
+function safeParseTags(val){
+  if(!val)return[];
+  try{const p=JSON.parse(val);return Array.isArray(p)?p:[p];}
+  catch(e){return val?[val]:[];}
 }
 function tagsHTML(tagsArr,tagList){
   if(!tagsArr||!tagsArr.length)return'';
@@ -1576,7 +1581,7 @@ function renderTodoList(data){
       <div style="font-size:13.5px;font-weight:500;">${t.title}</div>
       ${t.notes?`<div style="font-size:12px;color:var(--text2);margin-top:2px;">${stripHTML(t.notes).substring(0,80)}${stripHTML(t.notes).length>80?'...':''}</div>`:''}
     </div>
-    ${t.tag&&JSON.parse(t.tag||'[]').length?`<div style="display:flex;gap:4px;flex-wrap:wrap;">${tagsHTML(JSON.parse(t.tag||'[]'),todoTags)}</div>`:''}
+    ${safeParseTags(t.tag).length?`<div style="display:flex;gap:4px;flex-wrap:wrap;">${tagsHTML(safeParseTags(t.tag),todoTags)}</div>`:''}
     <button class="btn btn-outline btn-sm" style="margin-left:8px;" onclick="editTodo('${t.id}')">Edit</button>
     <button class="btn btn-sm" style="background:var(--red-light);color:var(--red);border:none;margin-left:6px;" onclick="deleteTodo('${t.id}')">×</button>
   </div>`).join('');
@@ -1621,7 +1626,7 @@ async function editTodo(id){
       <button class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
       <button class="btn btn-primary" onclick="updateTodo('${id}')">Save</button>
     </div>`);
-  document.getElementById('m-td-tags-wrap').innerHTML=makeTagPickerHTML('td-tags',todoTags,t.tag?JSON.parse(t.tag):[]);
+  document.getElementById('m-td-tags-wrap').innerHTML=makeTagPickerHTML('td-tags',todoTags,safeParseTags(t.tag));
   document.getElementById('m-td-notes-wrap').innerHTML=makeRTE('m-td-notes','');
   rteSet('m-td-notes',t.notes||'');
 }
