@@ -519,6 +519,10 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
         </select>
         <button class="btn btn-outline btn-sm" onclick="clearCalFilter()">Clear</button>
       </div>
+      <div style="display:flex;border-bottom:1px solid var(--border);margin-bottom:1.5rem;">
+        <div id="cal-tab-upcoming" class="tab active" onclick="switchCalTab('upcoming')" style="margin-bottom:-1px;">Upcoming</div>
+        <div id="cal-tab-completed" class="tab" onclick="switchCalTab('completed')" style="margin-bottom:-1px;">Completed</div>
+      </div>
       <div id="event-list"><div class="loading-state">Loading...</div></div>
     </div>
 
@@ -1153,22 +1157,52 @@ function renderContactsList(data){
 
 // ── CALENDAR ──────────────────────────────────────────────────────────────────
 let _calNotes={};
+let _calTab='upcoming';
 async function loadCalendar(){
   const{data}=await sb.from('calendar_events').select('*').eq('user_id',currentUser.id).order('event_date',{ascending:true});
   if(!data){return;}
   _allEvents=data;
   _calNotes={};data.forEach(e=>{if(e.notes)_calNotes[e.id]=e.notes;});
   populateSelect('cal-filter-tag',calTags,'All tags');
-  renderCalView(data);
+  renderCalView(getCalTabData());
+}
+function getCalTabData(){
+  const today=new Date();today.setHours(0,0,0,0);
+  if(_calTab==='upcoming'){
+    return _allEvents.filter(e=>new Date(e.event_date)>=today);
+  } else {
+    return [..._allEvents.filter(e=>new Date(e.event_date)<today)].reverse();
+  }
+}
+function switchCalTab(tab){
+  _calTab=tab;
+  document.getElementById('cal-tab-upcoming').classList.toggle('active',tab==='upcoming');
+  document.getElementById('cal-tab-completed').classList.toggle('active',tab==='completed');
+  // Reset filters when switching
+  const s=document.getElementById('cal-search');if(s)s.value='';
+  const f=document.getElementById('cal-filter-tag');if(f)f.value='';
+  const fs=document.getElementById('cal-filter-sort');if(fs)fs.value='asc';
+  renderCalView(getCalTabData());
 }
 function renderEventList(data){
   const el=document.getElementById('event-list');
-  if(!data?.length){el.innerHTML=`<div class="empty"><div class="empty-title">No events match</div><div class="empty-sub">Try adjusting your filters</div></div>`;return;}
+  const today=new Date();today.setHours(0,0,0,0);
+  const isPast=_calTab==='completed';
+  if(!data?.length){
+    el.innerHTML=`<div class="empty"><div class="empty-title">${isPast?'No completed events':'No upcoming events'}</div><div class="empty-sub">${isPast?'Past events will appear here automatically':'Add events using the + Add event button'}</div></div>`;
+    return;
+  }
   el.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px;">${data.map(e=>{
     const c=tagColor(calTags,e.event_type);
-    return`<div class="dl-card">
-      <div class="dl-icon" style="background:var(--surface2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></div>
-      <div style="flex:1"><div class="dl-name">${e.title}</div><div class="dl-date">${new Date(e.event_date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>
+    const past=new Date(e.event_date)<today;
+    return`<div class="dl-card" style="${past?'opacity:0.65;':''}">
+      <div class="dl-icon" style="background:${past?'var(--surface2)':'var(--surface2)'}">
+        ${past?`<svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent2)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>`}
+      </div>
+      <div style="flex:1">
+        <div class="dl-name" style="${past?'text-decoration:line-through;color:var(--text2);':''}">${e.title}</div>
+        <div class="dl-date">${new Date(e.event_date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
+      </div>
       <span class="badge badge-${c}">${e.event_type||'Event'}</span>
       ${e.notes?`<button class="btn btn-outline btn-sm" style="margin-left:8px;" onclick="showEventNotesById('${e.id}','${e.title.replace(/'/g,"&apos;").replace(/"/g,"&quot;")}')">Notes</button>`:''}
       <button class="btn btn-outline btn-sm" style="margin-left:6px;" onclick="editEvent('${e.id}')">Edit</button>
