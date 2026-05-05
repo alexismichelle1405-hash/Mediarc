@@ -519,9 +519,9 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--surface2)}
         </select>
         <button class="btn btn-outline btn-sm" onclick="clearCalFilter()">Clear</button>
       </div>
-      <div style="display:flex;border-bottom:1px solid var(--border);margin-bottom:1.5rem;">
-        <div id="cal-tab-upcoming" class="tab active" onclick="switchCalTab('upcoming')" style="margin-bottom:-1px;">Upcoming</div>
-        <div id="cal-tab-completed" class="tab" onclick="switchCalTab('completed')" style="margin-bottom:-1px;">Completed</div>
+      <div style="display:flex;gap:8px;margin-bottom:1.5rem;">
+        <button id="cal-tab-upcoming" onclick="switchCalTab('upcoming')" style="padding:8px 20px;border-radius:var(--radius-sm);font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;border:2px solid var(--accent);background:var(--accent);color:white;transition:all 0.15s;">Upcoming</button>
+        <button id="cal-tab-completed" onclick="switchCalTab('completed')" style="padding:8px 20px;border-radius:var(--radius-sm);font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;border:2px solid var(--border2);background:transparent;color:var(--text2);transition:all 0.15s;">Completed</button>
       </div>
       <div id="event-list"><div class="loading-state">Loading...</div></div>
     </div>
@@ -1176,8 +1176,10 @@ function getCalTabData(){
 }
 function switchCalTab(tab){
   _calTab=tab;
-  document.getElementById('cal-tab-upcoming').classList.toggle('active',tab==='upcoming');
-  document.getElementById('cal-tab-completed').classList.toggle('active',tab==='completed');
+  const upBtn=document.getElementById('cal-tab-upcoming');
+  const coBtn=document.getElementById('cal-tab-completed');
+  if(upBtn){upBtn.style.background=tab==='upcoming'?'var(--accent)':'transparent';upBtn.style.color=tab==='upcoming'?'white':'var(--text2)';upBtn.style.borderColor=tab==='upcoming'?'var(--accent)':'var(--border2)';}
+  if(coBtn){coBtn.style.background=tab==='completed'?'var(--accent)':'transparent';coBtn.style.color=tab==='completed'?'white':'var(--text2)';coBtn.style.borderColor=tab==='completed'?'var(--accent)':'var(--border2)';}
   // Reset filters when switching
   const s=document.getElementById('cal-search');if(s)s.value='';
   const f=document.getElementById('cal-filter-tag');if(f)f.value='';
